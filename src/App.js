@@ -5,6 +5,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import RecipesProvider from './context/RecipesProvider';
 import Login from './Pages/Login';
 import Meals from './Pages/Meals';
+import Drinks from './Pages/Drinks';
+import Profile from './Pages/Profile';
+import DoneRecipes from './Pages/DoneRecipes';
+import FavoriteRecipes from './Pages/FavoriteRecipes';
+import NotFound from './Pages/NotFound';
+import Recipe from './components/Recipe';
+import RecipeInProgress from './components/RecipeInProgress';
 
 function App() {
   return (
@@ -12,9 +19,26 @@ function App() {
       <RecipesProvider>
         <BrowserRouter>
           <Switch>
-            <Route exact path="/" component={ Login } />
-            {/* <Route path="*" component={ NotFound } /> */}
+            <Route path="/favorite-recipes" component={ FavoriteRecipes } />
+            <Route path="/done-recipes" component={ DoneRecipes } />
+            <Route path="/profile" component={ Profile } />
+
+            <Route
+              path="/drinks/:id-da-receita/in-progress"
+              component={ RecipeInProgress }
+            />
+            <Route path="/drinks/:id-da-receita" component={ Recipe } />
+            <Route exact path="/drinks" component={ Drinks } />
+
             <Route exact path="/meals" component={ Meals } />
+            <Route path="/meals/:id-da-receita" component={ Recipe } />
+            <Route
+              path="/meals/:id-da-receita/in-progress"
+              component={ RecipeInProgress }
+            />
+
+            <Route exact path="/" component={ Login } />
+            <Route path="*" component={ NotFound } />
           </Switch>
         </BrowserRouter>
       </RecipesProvider>

@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import Header from '../components/Header';
 
-function Meals() {
+function Drinks() {
   useEffect(() => {
-    document.title = 'Meals';
+    document.title = 'Drinks';
   });
 
   return (
     <div>
-      <Header title="Meals" />
+      <Header title="Drinks" />
     </div>
   );
 }
 
-export default Meals;
+export default Drinks;

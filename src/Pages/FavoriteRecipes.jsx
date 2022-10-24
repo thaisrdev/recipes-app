@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import Header from '../components/Header';
 
-function Meals() {
+function FavoriteRecipes() {
   useEffect(() => {
-    document.title = 'Meals';
+    document.title = 'Favorite Recipes';
   });
 
   return (
     <div>
-      <Header title="Meals" />
+      <Header title="Favorite Recipes" />
     </div>
   );
 }
 
-export default Meals;
+export default FavoriteRecipes;
