@@ -1,11 +1,11 @@
 import React from 'react';
 
-function Header() {
+function Recipe() {
   return (
     <div>
-      <h3>Header</h3>
+      <h3>Recipe</h3>
     </div>
   );
 }
 
-export default Header;
+export default Recipe;
