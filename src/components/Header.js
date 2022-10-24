@@ -18,13 +18,21 @@ function Header({ title }) {
     <div>
       <h1 data-testid="page-title">{ title }</h1>
 
-      <button type="button" onClick={ () => routeChange('profile') }>
+      <button
+        type="button"
+        onClick={ () => routeChange('profile') }
+        data-testid="profile-btn"
+      >
         <img data-testid="profile-top-btn" src={ profileIcon } alt="Icone de Perfil" />
       </button>
 
       { (title === 'Meals' || title === 'Drinks')
         && (
-          <button type="button" onClick={ () => setIsVisible((prevState) => !prevState) }>
+          <button
+            type="button"
+            onClick={ () => setIsVisible((prevState) => !prevState) }
+            data-testid="search-btn"
+          >
             <img
               data-testid="search-top-btn"
               src={ searchIcon }
