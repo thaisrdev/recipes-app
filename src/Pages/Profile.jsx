@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-export default function Profile() {
+function Profile() {
+  useEffect(() => {
+    document.title = 'Profile';
+  });
+
   return (
-    <div><Footer /></div>
+    <div>
+      <Header title="Profile" />
+      <Footer />
+    </div>
   );
 }
+
+export default Profile;

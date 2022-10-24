@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import Header from '../components/Header';
 
-export default function DoneRecipes() {
+function DoneRecipes() {
+  useEffect(() => {
+    document.title = 'Done Recipes';
+  });
+
   return (
-    <div>DoneRecipes</div>
+    <div>
+      <Header title="Done Recipes" />
+    </div>
   );
 }
+
+export default DoneRecipes;

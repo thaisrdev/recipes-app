@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-export default function Drinks() {
+function Drinks() {
+  useEffect(() => {
+    document.title = 'Drinks';
+  });
+
   return (
-    <div><Footer /></div>
+    <div>
+      <Header title="Drinks" />
+      <Footer />
+    </div>
   );
 }
+
+export default Drinks;
