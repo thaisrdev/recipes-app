@@ -40,6 +40,7 @@ function App() {
             <Route path="/done-recipes" component={ DoneRecipes } exact />
             <Route path="/favorite-recipes" component={ Favourites } exact />
             {/* <Route path="*" component={ NotFound } /> */}
+            <Route exact path="/meals" component={ Meals } />
           </Switch>
         </BrowserRouter>
       </RecipesProvider>
