@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 function Profile() {
   useEffect(() => {
@@ -9,6 +10,7 @@ function Profile() {
   return (
     <div>
       <Header title="Profile" />
+      <Footer />
     </div>
   );
 }
