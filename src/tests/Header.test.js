@@ -8,8 +8,12 @@ import RecipesContext from '../context/RecipesContext';
 
 describe('verificar componente Header', () => {
   const INITIAL_STATE = {
-    title: 'Meals',
+    title: 'Drinks',
     handleTitle: () => {},
+    updateListMeals: () => {},
+    updateListDrinks: () => {},
+    listRecipeMeal: { meals: [] },
+    listRecipeDrinks: { drinks: [] },
   };
   it('Verifica se os botões e o input estão na tela ao renderizar a pages Meals', () => {
     const title = 'Drinks';
