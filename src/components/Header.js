@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SearchBar from './SearchBar';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import RecipesContext from '../context/RecipesContext';
 
 function Header({ title }) {
   const [isVisible, setIsVisible] = useState(false);
+  const [inputSearch, setInputSearch] = useState('');
+  const { handleTitle } = useContext(RecipesContext);
+
+  useEffect(() => {
+    handleTitle(title);
+  }, [handleTitle, title]);
 
   const history = useHistory();
 
@@ -41,9 +48,15 @@ function Header({ title }) {
             />
           </button>)}
       {isVisible && (
-        <input type="text" placeholder="teste" data-testid="search-input" />
+        <input
+          type="text"
+          data-testid="search-input"
+          name="inputSearch"
+          value={ inputSearch }
+          onChange={ ({ target }) => { setInputSearch(target.value); } }
+        />
       )}
-      <SearchBar />
+      <SearchBar searchValue={ inputSearch } />
     </div>
   );
 }
