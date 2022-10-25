@@ -23,7 +23,7 @@ function Meals() {
     <div>
       <Header title="Meals" />
       { listRecipe.meals.slice(0, +'12').map((element, index) => (
-        <div key={ index }>
+        <div key={ index } data-testid={ `${index}-recipe-card` }>
 
           <img
             src={ element.strMealThumb }
