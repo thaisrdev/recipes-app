@@ -4,10 +4,11 @@ import RecipesContext from './RecipesContext';
 
 function RecipesProvider({ children }) {
   const [title, setTitle] = useState('');
-  const INITIAL_LIST = title === 'Drinks' ? { drinks: [] } : { meals: [] };
-  const [listRecipe, setListRecipe] = useState(INITIAL_LIST);
+  const [listRecipeMeal, setListRecipeMeal] = useState({ meals: [] });
+  const [listRecipeDrinks, setListRecipeDrinks] = useState({ drinks: [] });
 
-  const updateList = (list) => setListRecipe(list);
+  const updateListMeals = (list) => setListRecipeMeal(list);
+  const updateListDrinks = (list) => setListRecipeDrinks(list);
 
   const handleTitle = (titleParam) => setTitle(titleParam);
 
@@ -15,10 +16,11 @@ function RecipesProvider({ children }) {
     title,
     setTitle,
     handleTitle,
-    listRecipe,
-    setListRecipe,
-    updateList,
-  }), [listRecipe, title]);
+    listRecipeMeal,
+    updateListMeals,
+    listRecipeDrinks,
+    updateListDrinks,
+  }), [listRecipeDrinks, listRecipeMeal, title]);
 
   return (
     <RecipesContext.Provider value={ value }>

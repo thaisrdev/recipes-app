@@ -12,7 +12,9 @@ import {
 } from '../services/api';
 
 function SearchBar({ searchValue }) {
-  const { title, updateList, listRecipe } = useContext(RecipesContext);
+  const {
+    title, updateListDrinks, listRecipeDrinks, updateListMeals, listRecipeMeal
+  } = useContext(RecipesContext);
 
   const [typeFilter, setTypeFilter] = useState('ingredient');
   // const INITIAL_LIST = title === 'Drinks' ? { drinks: [] } : { meals: [] };
@@ -22,18 +24,18 @@ function SearchBar({ searchValue }) {
 
   useEffect(() => {
     if (title === 'Drinks') {
-      console.log(listRecipe);
-      if (listRecipe.drinks.length === 1) {
-        history.push(`/drinks/${listRecipe.drinks[0].idDrink}`);
+      console.log(listRecipeDrinks);
+      if (listRecipeDrinks.drinks.length === 1) {
+        history.push(`/drinks/${listRecipeDrinks.drinks[0].idDrink}`);
       }
     }
     if (title === 'Meals') {
-      console.log(listRecipe);
-      if (listRecipe.meals.length === 1) {
-        history.push(`/meals/${listRecipe.meals[0].idMeal}`);
+      console.log(listRecipeMeal);
+      if (listRecipeMeal.meals.length === 1) {
+        history.push(`/meals/${listRecipeMeal.meals[0].idMeal}`);
       }
     }
-  }, [listRecipe]);
+  }, [listRecipeDrinks, listRecipeMeal]);
 
   const handleChangeRadio = ({ target }) => {
     setTypeFilter(target.value);
@@ -45,32 +47,35 @@ function SearchBar({ searchValue }) {
     case 'ingredient':
       if (title === 'Drinks') {
         data = await getDrinksByIngredient(searchValue);
+        updateListDrinks(data);
       } else {
         data = await getMealsByIngredient(searchValue);
+        updateListMeals(data);
       }
-      updateList(data);
       break;
     case 'name':
       if (title === 'Drinks') {
         data = await getDrinksByName(searchValue);
+        updateListDrinks(data);
       } else {
         data = await getMealsByName(searchValue);
+        updateListMeals(data);
       }
-      updateList(data);
       break;
     // case 'firstLetter'
     default:
       if (searchValue.length === 1) {
         if (title === 'Drinks') {
           data = await getDrinksByFirstLetter(searchValue);
+          updateListDrinks(data);
         } else {
           data = await getMealsByFirstLetter(searchValue);
+          updateListMeals(data);
         }
       } else {
         global.alert('Your search must have only 1 (one) character');
         break;
       }
-      updateList(data);
       break;
     }
   };

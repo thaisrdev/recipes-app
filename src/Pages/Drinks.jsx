@@ -5,7 +5,7 @@ import { getAllDrinks } from '../services/api';
 import RecipesContext from '../context/RecipesContext';
 
 function Drinks() {
-  const { listRecipe, updateList } = useContext(RecipesContext);
+  const { listRecipeDrinks, updateListDrinks } = useContext(RecipesContext);
 
   useEffect(() => {
     document.title = 'Drinks';
@@ -14,7 +14,8 @@ function Drinks() {
   useEffect(() => {
     const getDrinksApi = async () => {
       const totalDrinks = await getAllDrinks();
-      updateList(totalDrinks);
+      console.log(totalDrinks);
+      updateListDrinks(totalDrinks);
     };
     getDrinksApi();
   }, []);
@@ -22,7 +23,7 @@ function Drinks() {
   return (
     <div>
       <Header title="Drinks" />
-      { listRecipe.drinks.slice(0, +'12').map((element, index) => (
+      { listRecipeDrinks.drinks.slice(0, +'12').map((element, index) => (
         <div key={ index } data-testid={ `${index}-recipe-card` }>
 
           <img
