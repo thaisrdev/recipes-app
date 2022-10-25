@@ -23,8 +23,10 @@ describe('Testa a SearchBar pelo componente Drinks', () => {
   const INITIAL_STATE = {
     title: 'Drinks',
     handleTitle: () => {},
-    updateList: () => {},
-    listRecipe: { drinks: [] },
+    updateListMeals: () => {},
+    updateListDrinks: () => {},
+    listRecipeMeal: { meals: [] },
+    listRecipeDrinks: { drinks: [] },
   };
   it('Verifica se os radio button e o button estão na tela ao renderizar', () => {
     const title = 'Drinks';
@@ -139,8 +141,10 @@ describe('Testa a SearchBar pelo componente Meals', () => {
   const INITIAL_STATE = {
     title: 'Meals',
     handleTitle: () => {},
-    updateList: () => {},
-    listRecipe: { meals: [] },
+    updateListMeals: () => {},
+    updateListDrinks: () => {},
+    listRecipeMeal: { meals: [] },
+    listRecipeDrinks: { drinks: [] },
   };
   it('Verifica filtro por nome na pagina de Meals', () => {
     const title = 'Meals';
