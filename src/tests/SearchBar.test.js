@@ -5,7 +5,6 @@ import renderWithRouter from './helpers/renderWithRouter';
 import RecipesContext from '../context/RecipesContext';
 import Drinks from '../Pages/Drinks';
 import Meals from '../Pages/Meals';
-import Login from '../Pages/Login';
 
 global.fetch = jest.fn(() => Promise
   .resolve({ json: () => Promise.resolve({ meals: 'Katsu Chicken curry' }),
