@@ -21,11 +21,9 @@ function Header({ title }) {
     const path = `${route}`;
     history.push(path);
   };
-
   return (
     <div>
       <h1 data-testid="page-title">{ title }</h1>
-
       <button
         type="button"
         onClick={ () => routeChange('profile') }
@@ -33,7 +31,6 @@ function Header({ title }) {
       >
         <img data-testid="profile-top-btn" src={ profileIcon } alt="Icone de Perfil" />
       </button>
-
       { (title === 'Meals' || title === 'Drinks')
         && (
           <button
@@ -60,9 +57,7 @@ function Header({ title }) {
     </div>
   );
 }
-
 Header.propTypes = {
   title: PropTypes.string.isRequired,
 };
-
 export default Header;
