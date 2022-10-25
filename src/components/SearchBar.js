@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import {
   getMealsByIngredient,
@@ -11,10 +12,28 @@ import {
 } from '../services/api';
 
 function SearchBar({ searchValue }) {
-  const { title } = useContext(RecipesContext);
+  const { title, updateList, listRecipe } = useContext(RecipesContext);
 
   const [typeFilter, setTypeFilter] = useState('ingredient');
-  const [listRecipe, setListRecipe] = useState([]);
+  // const INITIAL_LIST = title === 'Drinks' ? { drinks: [] } : { meals: [] };
+  // const [listRecipe, setListRecipe] = useState(INITIAL_LIST);
+
+  const history = useHistory();
+
+  useEffect(() => {
+    if (title === 'Drinks') {
+      console.log(listRecipe);
+      if (listRecipe.drinks.length === 1) {
+        history.push(`/drinks/${listRecipe.drinks[0].idDrink}`);
+      }
+    }
+    if (title === 'Meals') {
+      console.log(listRecipe);
+      if (listRecipe.meals.length === 1) {
+        history.push(`/meals/${listRecipe.meals[0].idMeal}`);
+      }
+    }
+  }, [listRecipe]);
 
   const handleChangeRadio = ({ target }) => {
     setTypeFilter(target.value);
@@ -29,7 +48,7 @@ function SearchBar({ searchValue }) {
       } else {
         data = await getMealsByIngredient(searchValue);
       }
-      setListRecipe(data);
+      updateList(data);
       break;
     case 'name':
       if (title === 'Drinks') {
@@ -37,7 +56,7 @@ function SearchBar({ searchValue }) {
       } else {
         data = await getMealsByName(searchValue);
       }
-      setListRecipe(data);
+      updateList(data);
       break;
     // case 'firstLetter'
     default:
@@ -51,12 +70,11 @@ function SearchBar({ searchValue }) {
         global.alert('Your search must have only 1 (one) character');
         break;
       }
-      setListRecipe(data);
+      updateList(data);
       break;
     }
   };
 
-  console.log(listRecipe);
   return (
     <div>
       <label htmlFor="ingredient-searc">

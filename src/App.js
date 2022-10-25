@@ -24,16 +24,16 @@ function App() {
             <Route path="/profile" component={ Profile } />
 
             <Route
-              path="/drinks/:id-da-receita/in-progress"
+              path="/drinks/:id/in-progress"
               component={ RecipeInProgress }
             />
-            <Route path="/drinks/:id-da-receita" component={ Recipe } />
+            <Route path="/drinks/:id" component={ Recipe } />
             <Route exact path="/drinks" component={ Drinks } />
 
             <Route exact path="/meals" component={ Meals } />
-            <Route path="/meals/:id-da-receita" component={ Recipe } />
+            <Route path="/meals/:id" component={ Recipe } />
             <Route
-              path="/meals/:id-da-receita/in-progress"
+              path="/meals/:id/in-progress"
               component={ RecipeInProgress }
             />
 

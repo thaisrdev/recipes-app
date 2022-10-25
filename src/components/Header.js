@@ -33,17 +33,20 @@ function Header({ title }) {
       </button>
       { (title === 'Meals' || title === 'Drinks')
         && (
-          <button
-            type="button"
-            onClick={ () => setIsVisible((prevState) => !prevState) }
-            data-testid="search-btn"
-          >
-            <img
-              data-testid="search-top-btn"
-              src={ searchIcon }
-              alt="Icone de Pesquisa"
-            />
-          </button>)}
+          <div>
+            <button
+              type="button"
+              onClick={ () => setIsVisible((prevState) => !prevState) }
+              data-testid="search-btn"
+            >
+              <img
+                data-testid="search-top-btn"
+                src={ searchIcon }
+                alt="Icone de Pesquisa"
+              />
+            </button>
+            <SearchBar searchValue={ inputSearch } />
+          </div>)}
       {isVisible && (
         <input
           type="text"
@@ -53,7 +56,6 @@ function Header({ title }) {
           onChange={ ({ target }) => { setInputSearch(target.value); } }
         />
       )}
-      <SearchBar searchValue={ inputSearch } />
     </div>
   );
 }
