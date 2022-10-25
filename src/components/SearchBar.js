@@ -39,7 +39,8 @@ function SearchBar({ searchValue }) {
       }
       setListRecipe(data);
       break;
-    case 'first-letter':
+    // case 'firstLetter'
+    default:
       if (searchValue.length === 1) {
         if (title === 'Drinks') {
           data = await getDrinksByFirstLetter(searchValue);
@@ -52,12 +53,10 @@ function SearchBar({ searchValue }) {
       }
       setListRecipe(data);
       break;
-    default:
-      setListRecipe([]);
     }
-    console.log(listRecipe);
   };
 
+  console.log(listRecipe);
   return (
     <div>
       <label htmlFor="ingredient-searc">

@@ -1,117 +1,234 @@
 import React from 'react';
-import { screen, fireEvent } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/renderWithRouter';
+import RecipesContext from '../context/RecipesContext';
+import Drinks from '../Pages/Drinks';
 import Meals from '../Pages/Meals';
 
-describe('1 - Elementos da  Barra de Busca', () => {
-  test('1.1 - Data-testid da barra de busca e dos radio buttons', () => {
-    // Renderização :
-    renderWithRouter(<Meals />);
+global.fetch = jest.fn(() => Promise
+  .resolve({ json: () => Promise.resolve({ recipes: [] }),
+  }));
 
-    // Montagem:
+const ingredientRadioId = 'ingredient-search-radio';
+const searchBtnId = 'search-btn';
+const searchInputId = 'search-input';
+describe('Testa a SearchBar pelo componente Drinks', () => {
+  window.alert = jest.fn();
 
-    const btnSearch = screen.getByTestId(/search-top-btn/i);
+  beforeEach(() => {
+    fetch.mockClear();
+  });
 
-    // Teste:
+  const INITIAL_STATE = {
+    title: 'Drinks',
+    handleTitle: () => {},
+  };
+  it('Verifica se os radio button e o button estão na tela ao renderizar', () => {
+    const title = 'Drinks';
+    renderWithRouter(
+      <RecipesContext.Provider value={ INITIAL_STATE }>
+        <Drinks title={ title } />
+      </RecipesContext.Provider>,
+    );
 
-    expect(btnSearch).toBeInTheDocument();
+    const nameRadio = screen.getByRole('radio', { name: /name/i });
+    expect(nameRadio).toBeInTheDocument();
+    userEvent.click(nameRadio);
 
-    fireEvent.click(btnSearch);
+    const firstLetterRadio = screen.getByRole('radio', { name: /first letter/i });
+    expect(firstLetterRadio).toBeInTheDocument();
+    userEvent.click(firstLetterRadio);
 
-    expect(screen.getByTestId(/ingredient-search-radio/i)).toBeInTheDocument();
+    const ingredientRadio = screen.getByTestId(ingredientRadioId);
+    expect(ingredientRadio).toBeInTheDocument();
+    userEvent.click(ingredientRadio);
 
-    expect(screen.getByTestId(/name-search-radio/i)).toBeInTheDocument();
+    const searchBtn = screen.getByRole('button', { name: /search/i });
+    expect(searchBtn).toBeInTheDocument();
+  });
 
-    expect(screen.getByTestId(/first-letter-search-radio/i)).toBeInTheDocument();
+  it('Verifica filtro por nome na pagina de Drinks', () => {
+    const title = 'Drinks';
+    renderWithRouter(
+      <RecipesContext.Provider value={ INITIAL_STATE }>
+        <Drinks title={ title } />
+      </RecipesContext.Provider>,
+    );
+    const btnSearch = screen.getByTestId(searchBtnId);
+    userEvent.click(btnSearch);
 
-    expect(screen.getByTestId(/exec-search-btn/i)).toBeInTheDocument();
+    const inputSearch = screen.getByTestId(searchInputId);
+    userEvent.type(inputSearch, 'gin');
+
+    const nameRadio = screen.getByRole('radio', { name: /name/i });
+    userEvent.click(nameRadio);
+
+    const searchBtn = screen.getByRole('button', { name: /search/i });
+    userEvent.click(searchBtn);
+  });
+  it('Verifica filtro por ingrediente na pagina de Drinks', () => {
+    const title = 'Drinks';
+    renderWithRouter(
+      <RecipesContext.Provider value={ INITIAL_STATE }>
+        <Drinks title={ title } />
+      </RecipesContext.Provider>,
+    );
+    const btnSearch = screen.getByTestId(searchBtnId);
+    userEvent.click(btnSearch);
+
+    const inputSearch = screen.getByTestId(searchInputId);
+    userEvent.type(inputSearch, 'gin');
+
+    const ingredientRadio = screen.getByTestId(ingredientRadioId);
+    userEvent.click(ingredientRadio);
+
+    const searchBtn = screen.getByRole('button', { name: /search/i });
+    userEvent.click(searchBtn);
+  });
+  it('Verifica filtro pela primeira letra (com somente uma letra) na pagina de Drinks', () => {
+    const title = 'Drinks';
+    renderWithRouter(
+      <RecipesContext.Provider value={ INITIAL_STATE }>
+        <Drinks title={ title } />
+      </RecipesContext.Provider>,
+    );
+    const btnSearch = screen.getByTestId(searchBtnId);
+    userEvent.click(btnSearch);
+
+    const inputSearch = screen.getByTestId(searchInputId);
+    userEvent.type(inputSearch, 'g');
+
+    const firstLetterRadio = screen.getByRole('radio', { name: /first letter/i });
+    userEvent.click(firstLetterRadio);
+
+    const searchBtn = screen.getByRole('button', { name: /search/i });
+    userEvent.click(searchBtn);
+  });
+  it('Verifica filtro pela primeira letra (com mais de uma letra) na pagina de Drinks', () => {
+    const title = 'Drinks';
+    renderWithRouter(
+      <RecipesContext.Provider value={ INITIAL_STATE }>
+        <Drinks title={ title } />
+      </RecipesContext.Provider>,
+    );
+    const btnSearch = screen.getByTestId(searchBtnId);
+    userEvent.click(btnSearch);
+
+    const inputSearch = screen.getByTestId(searchInputId);
+    userEvent.type(inputSearch, 'gi');
+
+    const firstLetterRadio = screen.getByRole('radio', { name: /first letter/i });
+    userEvent.click(firstLetterRadio);
+
+    const searchBtn = screen.getByRole('button', { name: /search/i });
+    userEvent.click(searchBtn);
+    window.alert.mockClear();
   });
 });
 
-describe('2 - Posição da  Barra de Busca e Posição dos Radio Buttons', () => {
-  test('2.1 - Se for selecionado Ingridient, a API reponde corretamente', () => {
-    // Renderização :
-    renderWithRouter(<Meals />);
+describe('Testa a SearchBar pelo componente Meals', () => {
+  window.alert = jest.fn();
 
-    // Montagem 1:
-
-    const btnSearch = screen.queryByTestId(/search-top-btn/i);
-
-    // Teste 1:
-
-    expect(btnSearch).toBeInTheDocument();
-
-    fireEvent.click(btnSearch);
-
-    // Montagem 2:
-
-    const searchIngridient = screen.queryByTestId(/ingredient-search-radio/i);
-
-    // Teste 2:
-
-    expect(searchIngridient).toBeInTheDocument();
-
-    fireEvent.click(searchIngridient);
-
-    // Montagem 3 :
-
-    const searchInput = screen.queryByTestId(/search-input/i);
-
-    // Teste 3 :
-
-    expect(searchInput).toBeInTheDocument();
-
-    fireEvent.click(searchInput, { target: { value: 'chiken' } });
-
-    // Montagem 4:
-
-    const execSrcBtn = screen.queryByTestId(/exec-search-btn/i);
-
-    // Teste 4 :
-
-    expect(execSrcBtn).toBeInTheDocument();
+  beforeEach(() => {
+    fetch.mockClear();
   });
 
-  test('2.2 - Se for selecionado first-letter, a API reponde corretamente', async () => {
-    // Renderização :
-    renderWithRouter(<Meals />);
+  const INITIAL_STATE = {
+    title: 'Meals',
+    handleTitle: () => {},
+  };
+  it('Verifica filtro por nome na pagina de Meals', () => {
+    const title = 'Meals';
+    renderWithRouter(
+      <RecipesContext.Provider value={ INITIAL_STATE }>
+        <Meals title={ title } />
+      </RecipesContext.Provider>,
+    );
+    const btnSearch = screen.getByTestId(searchBtnId);
+    userEvent.click(btnSearch);
 
-    // Montagem 1:
+    const inputSearch = screen.getByTestId(searchInputId);
+    userEvent.type(inputSearch, 'chicken');
 
-    const btnSearch = screen.queryByTestId(/search-top-btn/i);
+    const nameRadio = screen.getByRole('radio', { name: /name/i });
+    userEvent.click(nameRadio);
 
-    // Teste 1:
+    const searchBtn = screen.getByRole('button', { name: /search/i });
+    userEvent.click(searchBtn);
+  });
+  it('Verifica filtro por ingrediente na pagina de Meals', () => {
+    const title = 'Meals';
+    renderWithRouter(
+      <RecipesContext.Provider value={ INITIAL_STATE }>
+        <Meals title={ title } />
+      </RecipesContext.Provider>,
+    );
+    const btnSearch = screen.getByTestId(searchBtnId);
+    userEvent.click(btnSearch);
 
-    expect(btnSearch).toBeInTheDocument();
+    const inputSearch = screen.getByTestId(searchInputId);
+    userEvent.type(inputSearch, 'chicken');
 
-    fireEvent.click(btnSearch);
+    const ingredientRadio = screen.getByTestId(ingredientRadioId);
+    userEvent.click(ingredientRadio);
 
-    // Montagem 2:
+    const searchBtn = screen.getByRole('button', { name: /search/i });
+    userEvent.click(searchBtn);
+  });
+  it('Verifica filtro pela primeira letra (com somente uma letra) na pagina de Meals', () => {
+    const title = 'Meals';
+    renderWithRouter(
+      <RecipesContext.Provider value={ INITIAL_STATE }>
+        <Meals title={ title } />
+      </RecipesContext.Provider>,
+    );
+    const btnSearch = screen.getByTestId(searchBtnId);
+    userEvent.click(btnSearch);
 
-    const firstLetter = screen.queryByTestId(/first-letter-search-radio/i);
+    const inputSearch = screen.getByTestId(searchInputId);
+    userEvent.type(inputSearch, 'c');
 
-    // Teste 2:
+    const firstLetterRadio = screen.getByRole('radio', { name: /first letter/i });
+    userEvent.click(firstLetterRadio);
 
-    expect(firstLetter).toBeInTheDocument();
+    const searchBtn = screen.getByRole('button', { name: /search/i });
+    userEvent.click(searchBtn);
+  });
+  it('Verifica filtro pela primeira letra (com mais de uma letra) na pagina de Meals', () => {
+    const title = 'Meals';
+    renderWithRouter(
+      <RecipesContext.Provider value={ INITIAL_STATE }>
+        <Meals title={ title } />
+      </RecipesContext.Provider>,
+    );
+    const btnSearch = screen.getByTestId(searchBtnId);
+    userEvent.click(btnSearch);
 
-    fireEvent.click(firstLetter);
+    const inputSearch = screen.getByTestId(searchInputId);
+    userEvent.type(inputSearch, 'ch');
 
-    // Montagem 3 :
+    const firstLetterRadio = screen.getByRole('radio', { name: /first letter/i });
+    userEvent.click(firstLetterRadio);
 
-    const searchInput = screen.queryByTestId(/search-input/i);
+    const searchBtn = screen.getByRole('button', { name: /search/i });
+    userEvent.click(searchBtn);
+    window.alert.mockClear();
+  });
+  it('Verifica default do switch', () => {
+    const title = 'Meals';
+    renderWithRouter(
+      <RecipesContext.Provider value={ INITIAL_STATE }>
+        <Meals title={ title } />
+      </RecipesContext.Provider>,
+    );
+    const btnSearch = screen.getByTestId(searchBtnId);
+    userEvent.click(btnSearch);
 
-    // Teste 3 :
+    const inputSearch = screen.getByTestId(searchInputId);
+    userEvent.type(inputSearch, 'ch');
 
-    expect(searchInput).toBeInTheDocument();
-
-    fireEvent.change(searchInput, { target: { value: 'a' } });
-
-    // Montagem 4:
-
-    const execSrcBtn = screen.queryByTestId(/exec-search-btn/i);
-
-    // Teste 4 :
-
-    expect(execSrcBtn).toBeInTheDocument();
+    const searchBtn = screen.getByRole('button', { name: /search/i });
+    userEvent.click(searchBtn);
   });
 });
