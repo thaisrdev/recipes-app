@@ -13,7 +13,7 @@ import {
 
 function SearchBar({ searchValue }) {
   const {
-    title, updateListDrinks, listRecipeDrinks, updateListMeals, listRecipeMeal
+    title, updateListDrinks, listRecipeDrinks, updateListMeals, listRecipeMeal,
   } = useContext(RecipesContext);
 
   const [typeFilter, setTypeFilter] = useState('ingredient');
@@ -43,10 +43,12 @@ function SearchBar({ searchValue }) {
 
   const handleClick = async () => {
     let data;
+    console.log(title);
     switch (typeFilter) {
     case 'ingredient':
       if (title === 'Drinks') {
         data = await getDrinksByIngredient(searchValue);
+        console.log(data);
         updateListDrinks(data);
       } else {
         data = await getMealsByIngredient(searchValue);

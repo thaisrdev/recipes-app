@@ -23,22 +23,23 @@ function Drinks() {
   return (
     <div>
       <Header title="Drinks" />
-      { listRecipeDrinks.drinks.slice(0, +'12').map((element, index) => (
-        <div key={ index } data-testid={ `${index}-recipe-card` }>
+      { listRecipeDrinks.drinks.slice(0, +'12')
+        .map((element, index) => (
+          <div key={ index } data-testid={ `${index}-recipe-card` }>
 
-          <img
-            src={ element.strDrinkThumb }
-            alt="meal-img"
-            data-testid={ `${index}-card-img` }
-          />
-          <p
-            data-testid={ `${index}-card-name` }
-          >
-            { element.strDrink }
-          </p>
+            <img
+              src={ element.strDrinkThumb }
+              alt="meal-img"
+              data-testid={ `${index}-card-img` }
+            />
+            <p
+              data-testid={ `${index}-card-name` }
+            >
+              { element.strDrink }
+            </p>
 
-        </div>
-      ))}
+          </div>
+        ))}
       <Footer />
     </div>
   );
