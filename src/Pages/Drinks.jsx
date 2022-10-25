@@ -20,6 +20,7 @@ function Drinks() {
     getDrinksApi();
   }, []);
 
+  console.log(listRecipeDrinks);
   return (
     <div>
       <Header title="Drinks" />
