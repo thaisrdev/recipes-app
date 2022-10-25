@@ -41,27 +41,46 @@ function SearchBar({ searchValue }) {
     setTypeFilter(target.value);
   };
 
+  const verifySearchDrinks = (data) => {
+    console.log(data.drinks.length);
+    const alert = 'Sorry, we haven\'t found any recipes for these filters.';
+    if ((title === 'Drinks') && (data.drinks.length === 0)) {
+      global.alert(alert);
+    }
+  };
+  const verifySearchMeals = (data) => {
+    const alert = 'Sorry, we haven\'t found any recipes for these filters.';
+    if (title === 'Meals') {
+      console.log(data);
+      if (data.meals.length === 0) {
+        global.alert(alert);
+      }
+    }
+  };
+
   const handleClick = async () => {
     let data;
-    console.log(title);
     switch (typeFilter) {
     case 'ingredient':
       if (title === 'Drinks') {
         data = await getDrinksByIngredient(searchValue);
-        console.log(data);
         updateListDrinks(data);
+        verifySearchDrinks(data);
       } else {
         data = await getMealsByIngredient(searchValue);
         updateListMeals(data);
+        verifySearchMeals(data);
       }
       break;
     case 'name':
       if (title === 'Drinks') {
         data = await getDrinksByName(searchValue);
         updateListDrinks(data);
+        verifySearchDrinks(data);
       } else {
         data = await getMealsByName(searchValue);
         updateListMeals(data);
+        verifySearchMeals(data);
       }
       break;
     // case 'firstLetter'
@@ -70,9 +89,11 @@ function SearchBar({ searchValue }) {
         if (title === 'Drinks') {
           data = await getDrinksByFirstLetter(searchValue);
           updateListDrinks(data);
+          verifySearchDrinks(data);
         } else {
           data = await getMealsByFirstLetter(searchValue);
           updateListMeals(data);
+          verifySearchMeals(data);
         }
       } else {
         global.alert('Your search must have only 1 (one) character');
