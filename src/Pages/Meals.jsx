@@ -14,20 +14,16 @@ function Meals() {
   useEffect(() => {
     const getMealsApi = async () => {
       const totalMeals = await getAllMeals();
-      const mealsPage = await totalMeals.meals.slice(0, +'12');
-      console.log(mealsPage);
-      updateList(mealsPage);
+      updateList(totalMeals);
     };
     getMealsApi();
-  }, [updateList]);
-
-  console.log(listRecipe);
+  }, []);
 
   return (
     <div>
       <Header title="Meals" />
-      { listRecipe.map((element, index) => (
-        <div key="index">
+      { listRecipe.meals.slice(0, +'12').map((element, index) => (
+        <div key={ index }>
 
           <img
             src={ element.strMealThumb }
