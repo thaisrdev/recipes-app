@@ -10,8 +10,9 @@ import Profile from './Pages/Profile';
 import DoneRecipes from './Pages/DoneRecipes';
 import FavoriteRecipes from './Pages/FavoriteRecipes';
 import NotFound from './Pages/NotFound';
-import Recipe from './components/Recipe';
+// import Recipe from './components/Recipe';
 import RecipeInProgress from './components/RecipeInProgress';
+import RecipeDetails from './components/RecipeDetails';
 
 function App() {
   return (
@@ -27,11 +28,11 @@ function App() {
               path="/drinks/:id/in-progress"
               component={ RecipeInProgress }
             />
-            <Route path="/drinks/:id" component={ Recipe } />
+            <Route path="/drinks/:id" component={ RecipeDetails } />
             <Route exact path="/drinks" component={ Drinks } />
 
             <Route exact path="/meals" component={ Meals } />
-            <Route path="/meals/:id" component={ Recipe } />
+            <Route path="/meals/:id" component={ RecipeDetails } />
             <Route
               path="/meals/:id/in-progress"
               component={ RecipeInProgress }
