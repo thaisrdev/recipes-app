@@ -133,14 +133,26 @@ export async function getDrinkCategories() {
     return result;
   } catch (err) {
     console.log(err);
+    return { meals: [] };
+  }
+}
+
+export async function getDrinkById(id) {
+  try {
+    const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
+    const response = await fetch(url);
+    const result = await response.json();
+    return result;
+  } catch (err) {
+    console.log(err);
     return { drinks: [] };
   }
 }
 
-export async function filterMealCategories(category) {
+export async function getMealById(id) {
   try {
-    const url = 'https://www.themealdb.com/api/json/v1/1/filter.php?c=';
-    const response = await fetch(`${url}${category}`);
+    const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+    const response = await fetch(url);
     const result = await response.json();
     return result;
   } catch (err) {
@@ -160,3 +172,16 @@ export async function filterDrinkCategories(category) {
     return { drinks: [] };
   }
 }
+
+export async function filterMealCategories(category) {
+  try {
+    const url = 'https://www.themealdb.com/api/json/v1/1/filter.php?c=';
+    const response = await fetch(`${url}${category}`);
+    const result = await response.json();
+    return result;
+  } catch (err) {
+    console.log(err);
+    return { meals: [] };
+  }
+}
+
