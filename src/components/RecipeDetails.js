@@ -56,7 +56,7 @@ function RecipeDetails({ match: { params, path } }) {
   console.log(recipe);
   return (
     <div>
-      <h3>Recipe Details</h3>
+      <h3 data-testid="teste">Recipe Details</h3>
       <RecipeDetailsCard
         isMeal={ isMeal }
         photo={ path === mealUrl ? recipe.strMealThumb : recipe.strDrinkThumb }
