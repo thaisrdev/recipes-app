@@ -70,5 +70,6 @@ describe('Cobertura de testes do profile', () => {
 
     const favBtn = screen.getByTestId('profile-favorite-btn');
     expect(favBtn).toBeInTheDocument();
+    userEvent.click(favBtn);
   });
 });
