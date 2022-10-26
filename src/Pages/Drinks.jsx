@@ -46,6 +46,7 @@ function Drinks() {
   const handleAllFilters = () => {
     setCategory([]);
   };
+  //
 
   return (
     <div>

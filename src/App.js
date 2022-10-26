@@ -10,7 +10,6 @@ import Profile from './Pages/Profile';
 import DoneRecipes from './Pages/DoneRecipes';
 import FavoriteRecipes from './Pages/FavoriteRecipes';
 import NotFound from './Pages/NotFound';
-import Recipes from './components/Recipes';
 import RecipeInProgress from './components/RecipeInProgress';
 import RecipeDetails from './components/RecipeDetails';
 
