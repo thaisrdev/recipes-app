@@ -184,4 +184,3 @@ export async function filterMealCategories(category) {
     return { meals: [] };
   }
 }
-
