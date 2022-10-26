@@ -46,7 +46,7 @@ function Login() {
       </label>
       <label htmlFor="password-input">
         <input
-          type="email"
+          type="password"
           data-testid="password-input"
           value={ password }
           onChange={ (e) => setPassword(e.target.value) }
