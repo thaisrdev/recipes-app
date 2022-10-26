@@ -7,7 +7,7 @@ import Drinks from '../Pages/Drinks';
 import Meals from '../Pages/Meals';
 
 global.fetch = jest.fn(() => Promise
-  .resolve({ json: () => Promise.resolve({ recipes: [] }),
+  .resolve({ json: () => Promise.resolve({ meals: 'Katsu Chicken curry' }),
   }));
 
 const ingredientRadioId = 'ingredient-search-radio';
@@ -23,8 +23,10 @@ describe('Testa a SearchBar pelo componente Drinks', () => {
   const INITIAL_STATE = {
     title: 'Drinks',
     handleTitle: () => {},
-    updateList: () => {},
-    listRecipe: { drinks: [] },
+    updateListMeals: () => {},
+    updateListDrinks: () => {},
+    listRecipeMeal: { meals: [] },
+    listRecipeDrinks: { drinks: [] },
   };
   it('Verifica se os radio button e o button estão na tela ao renderizar', () => {
     const title = 'Drinks';
@@ -139,8 +141,10 @@ describe('Testa a SearchBar pelo componente Meals', () => {
   const INITIAL_STATE = {
     title: 'Meals',
     handleTitle: () => {},
-    updateList: () => {},
-    listRecipe: { meals: [] },
+    updateListMeals: () => {},
+    updateListDrinks: () => {},
+    listRecipeMeal: { meals: [] },
+    listRecipeDrinks: { drinks: [] },
   };
   it('Verifica filtro por nome na pagina de Meals', () => {
     const title = 'Meals';
@@ -219,20 +223,45 @@ describe('Testa a SearchBar pelo componente Meals', () => {
     userEvent.click(searchBtn);
     window.alert.mockClear();
   });
-  it('Verifica default do switch', () => {
+});
+
+describe('Testa redirecionamento', () => {
+  window.alert = jest.fn();
+
+  beforeEach(() => {
+    fetch.mockClear();
+  });
+
+  const INITIAL_STATE = {
+    title: 'Drinks',
+    handleTitle: () => {},
+    updateListMeals: () => {},
+    updateListDrinks: () => {},
+    listRecipeMeal: { meals: [] },
+    listRecipeDrinks: { drinks: [] },
+  };
+  it.skip('Verifica redirecionamento para pagina meals details quando retornar somente um resultado', () => {
     const title = 'Meals';
-    renderWithRouter(
+    const { history } = renderWithRouter(
       <RecipesContext.Provider value={ INITIAL_STATE }>
         <Meals title={ title } />
       </RecipesContext.Provider>,
     );
+    const { pathname } = history.location;
+    expect(pathname).toBe('/meals');
     const btnSearch = screen.getByTestId(searchBtnId);
     userEvent.click(btnSearch);
 
     const inputSearch = screen.getByTestId(searchInputId);
-    userEvent.type(inputSearch, 'ch');
+    userEvent.type(inputSearch, 'Katsu Chicken curry');
+
+    const nameRadio = screen.getByRole('radio', { name: /name/i });
+    userEvent.click(nameRadio);
 
     const searchBtn = screen.getByRole('button', { name: /search/i });
     userEvent.click(searchBtn);
+
+    expect(fetch).toHaveBeenCalledTimes(2);
+    console.log(pathname);
   });
 });
