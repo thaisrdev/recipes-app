@@ -6,6 +6,8 @@ function RecipesProvider({ children }) {
   const [title, setTitle] = useState('');
   const [listRecipeMeal, setListRecipeMeal] = useState({ meals: [] });
   const [listRecipeDrinks, setListRecipeDrinks] = useState({ drinks: [] });
+  const [mealCategories, setMealCategories] = useState([]);
+  const [drinkCategories, setDrinkCategories] = useState([]);
 
   const updateListMeals = (list) => setListRecipeMeal(list);
   const updateListDrinks = (list) => setListRecipeDrinks(list);
@@ -20,7 +22,19 @@ function RecipesProvider({ children }) {
     updateListMeals,
     listRecipeDrinks,
     updateListDrinks,
-  }), [listRecipeDrinks, listRecipeMeal, title]);
+    mealCategories,
+    setMealCategories,
+    drinkCategories,
+    setDrinkCategories,
+  }), [
+    listRecipeDrinks,
+    listRecipeMeal,
+    title,
+    mealCategories,
+    setMealCategories,
+    drinkCategories,
+    setDrinkCategories,
+  ]);
 
   return (
     <RecipesContext.Provider value={ value }>
