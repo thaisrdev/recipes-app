@@ -1,13 +1,15 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/renderWithRouter';
-import Drinks from '../Pages/Drinks';
-import Meals from '../Pages/Meals';
+import Recipes from '../components/Recipes';
 
 describe('verificar componente Recipe', () => {
   it('verifica a página Drinks', () => {
-    render(<Drinks />);
+    const { history } = renderWithRouter(<Recipes />);
+    act(() => {
+      history.push('/drinks');
+    });
     const drinkImg = screen.getByTestId('0-card-img');
     expect(drinkImg).toBeInTheDocument();
     const recipeCard = screen.getByTestId('0-recipe-card');
@@ -18,7 +20,10 @@ describe('verificar componente Recipe', () => {
     expect(categoryButton).toBeInTheDocument();
   });
   it('verifica a página Meals', () => {
-    render(<Meals />);
+    const { history } = renderWithRouter(<Recipes />);
+    act(() => {
+      history.push('/meals');
+    });
     const mealImg = screen.getByTestId('0-card-img');
     expect(mealImg).toBeInTheDocument();
     const recipeCard = screen.getByTestId('0-recipe-card');
@@ -29,21 +34,30 @@ describe('verificar componente Recipe', () => {
     expect(categoryButton).toBeInTheDocument();
   });
   it('verifica o Footer em Drinks', () => {
-    const { history } = renderWithRouter(<Drinks />);
+    const { history } = renderWithRouter(<Recipes />);
+    act(() => {
+      history.push('/drinks');
+    });
     const drinksBtn = screen.getByTestId('drinks-bottom-btn');
     userEvent.click(drinksBtn);
     const { pathname } = history.location;
     expect(pathname).toBe('/drinks');
   });
   it('verifica o footer em Meals', () => {
-    const { history } = renderWithRouter(<Meals />);
+    const { history } = renderWithRouter(<Recipes />);
+    act(() => {
+      history.push('/meals');
+    });
     const mealsBtn = screen.getByTestId('meals-bottom-btn');
     userEvent.click(mealsBtn);
     const { pathname } = history.location;
     expect(pathname).toBe('/meals');
   });
   it('verifica o Header em Drinks', () => {
-    const { history } = renderWithRouter(<Drinks />);
+    const { history } = renderWithRouter(<Recipes />);
+    act(() => {
+      history.push('/drinks');
+    });
     const title = screen.getByTestId('page-title');
     expect(title).toBeInTheDocument();
     const profile = screen.getByTestId('profile-top-btn');
@@ -59,7 +73,10 @@ describe('verificar componente Recipe', () => {
     expect(pathname).toBe('/profile');
   });
   it('verifica o Header em Meals', () => {
-    const { history } = renderWithRouter(<Meals />);
+    const { history } = renderWithRouter(<Recipes />);
+    act(() => {
+      history.push('/meals');
+    });
     const title = screen.getByTestId('page-title');
     expect(title).toBeInTheDocument();
     const profile = screen.getByTestId('profile-top-btn');

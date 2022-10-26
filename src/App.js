@@ -10,7 +10,7 @@ import Profile from './Pages/Profile';
 import DoneRecipes from './Pages/DoneRecipes';
 import FavoriteRecipes from './Pages/FavoriteRecipes';
 import NotFound from './Pages/NotFound';
-import Recipe from './components/Recipe';
+import Recipes from './components/Recipes';
 import RecipeInProgress from './components/RecipeInProgress';
 
 function App() {
@@ -27,11 +27,11 @@ function App() {
               path="/drinks/:id/in-progress"
               component={ RecipeInProgress }
             />
-            <Route path="/drinks/:id" component={ Recipe } />
+            <Route path="/drinks/:id" component={ Recipes } />
             <Route exact path="/drinks" component={ Drinks } />
 
             <Route exact path="/meals" component={ Meals } />
-            <Route path="/meals/:id" component={ Recipe } />
+            <Route path="/meals/:id" component={ Recipes } />
             <Route
               path="/meals/:id/in-progress"
               component={ RecipeInProgress }
