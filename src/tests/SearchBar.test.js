@@ -223,6 +223,23 @@ describe('Testa a SearchBar pelo componente Meals', () => {
     userEvent.click(searchBtn);
     window.alert.mockClear();
   });
+  it('verifica se é redirecionado para meals', () => {
+    const { history } = renderWithRouter(
+      <RecipesContext.Provider value={ INITIAL_STATE }>
+        <Meals title={ title } />
+      </RecipesContext.Provider>,
+    );
+    act(() => {
+      history.push('/meals');
+    });
+
+    const mealsPage = screen.getByRole('img');
+    expect(mealsPage).toBeInTheDocument();
+
+    const imgPokedex = screen.getByRole('img');
+    const altImg = 'meal-img';
+    expect(imgPokedex.alt).toBe(altImg);
+  });
 });
 
 describe('Testa redirecionamento', () => {

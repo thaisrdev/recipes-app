@@ -113,6 +113,30 @@ export async function getAllDrinks() {
   }
 }
 
+export async function getMealCategories() {
+  try {
+    const url = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
+    const response = await fetch(url);
+    const result = await response.json();
+    return result;
+  } catch (err) {
+    console.log(err);
+    return { meals: [] };
+  }
+}
+
+export async function getDrinkCategories() {
+  try {
+    const url = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
+    const response = await fetch(url);
+    const result = await response.json();
+    return result;
+  } catch (err) {
+    console.log(err);
+    return { meals: [] };
+  }
+}
+
 export async function getDrinkById(id) {
   try {
     const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
@@ -136,3 +160,28 @@ export async function getMealById(id) {
     return { meals: [] };
   }
 }
+
+export async function filterDrinkCategories(category) {
+  try {
+    const url = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=';
+    const response = await fetch(`${url}${category}`);
+    const result = await response.json();
+    return result;
+  } catch (err) {
+    console.log(err);
+    return { drinks: [] };
+  }
+}
+
+export async function filterMealCategories(category) {
+  try {
+    const url = 'https://www.themealdb.com/api/json/v1/1/filter.php?c=';
+    const response = await fetch(`${url}${category}`);
+    const result = await response.json();
+    return result;
+  } catch (err) {
+    console.log(err);
+    return { meals: [] };
+  }
+}
+
