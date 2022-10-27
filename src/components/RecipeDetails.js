@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { getDrinkById, getMealById } from '../services/api';
+import {
+  getDrinkById, getMealById,
+  getAllDrinks, getAllMeals,
+} from '../services/api';
 import RecipeDetailsCard from './RecipeDetailsCard';
 
 function RecipeDetails({ match: { params, path } }) {
@@ -13,6 +16,8 @@ function RecipeDetails({ match: { params, path } }) {
   const [ingredientAndMeasureList, setIngredientAndMeasureList] = useState(
     [{ ingredient: '', measure: '' }],
   );
+  const [recommendation, setRecommendation] = useState(path === mealUrl
+    ? { drinks: [] } : { meals: [] });
 
   useEffect(() => {
     if (path === '/meals/:id') {
@@ -23,6 +28,11 @@ function RecipeDetails({ match: { params, path } }) {
         setType('meals');
       };
       getMealByIdApi();
+      const getDrinkRecommendationApi = async () => {
+        const drinkRecommendation = await getAllDrinks();
+        setRecommendation(drinkRecommendation);
+      };
+      getDrinkRecommendationApi();
     } else {
       const getDrinkByIdApi = async () => {
         const drinkById = await getDrinkById(params.id);
@@ -31,6 +41,11 @@ function RecipeDetails({ match: { params, path } }) {
         setType('drinks');
       };
       getDrinkByIdApi();
+      const getMealRecommendationApi = async () => {
+        const mealRecommendation = await getAllMeals();
+        setRecommendation(mealRecommendation);
+      };
+      getMealRecommendationApi();
     }
   }, [params.id, path]);
 
@@ -53,7 +68,7 @@ function RecipeDetails({ match: { params, path } }) {
     };
     ingredientAndMeasureArray();
   }, [recipe, type]);
-  console.log(recipe);
+  console.log(recommendation);
   return (
     <div>
       <h3 data-testid="teste">Recipe Details</h3>
