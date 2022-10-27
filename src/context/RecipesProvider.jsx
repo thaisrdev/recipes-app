@@ -27,13 +27,8 @@ function RecipesProvider({ children }) {
     drinkCategories,
     setDrinkCategories,
   }), [
-    listRecipeDrinks,
-    listRecipeMeal,
     title,
-    mealCategories,
-    setMealCategories,
-    drinkCategories,
-    setDrinkCategories,
+    listRecipeMeal, listRecipeDrinks, mealCategories, drinkCategories,
   ]);
 
   return (

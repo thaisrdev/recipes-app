@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import {
   getDrinkById, getMealById,
   getAllDrinks, getAllMeals,
 } from '../services/api';
+import RecipesContext from '../context/RecipesContext';
 import RecipeDetailsCard from './RecipeDetailsCard';
 import RecommendationCard from './RecommendationCard';
 
-function RecipeDetails({ match: { params, path } }) {
+function RecipeDetails({ match: { params, path, url } }) {
   const mealUrl = '/meals/:id';
   const [recipe, setRecipe] = useState(path === mealUrl
     ? { meals: [] } : { drinks: [] });
@@ -18,6 +20,9 @@ function RecipeDetails({ match: { params, path } }) {
     [{ ingredient: '', measure: '' }],
   );
   const [recommendation, setRecommendation] = useState([]);
+
+  const { updateRecipeInProgress } = useContext(RecipesContext);
+  const history = useHistory();
 
   useEffect(() => {
     if (path === '/meals/:id') {
@@ -49,6 +54,19 @@ function RecipeDetails({ match: { params, path } }) {
     }
   }, [params.id, path]);
 
+  const updateInProgress = (array) => {
+    const obj = {
+      isMeal,
+      photo: (path === mealUrl ? recipe.strMealThumb : recipe.strDrinkThumb),
+      title: (path === mealUrl ? recipe.strMeal : recipe.strDrink),
+      category: (path === mealUrl ? recipe.strCategory : recipe.strAlcoholic),
+      instructions: (recipe.strInstructions),
+      video: (recipe.strYoutube),
+      ingredientAndMeasure: (array),
+    };
+    updateRecipeInProgress(obj);
+  };
+
   useEffect(() => {
     const ingredientAndMeasureArray = () => {
       const maxFor = 19;
@@ -64,6 +82,9 @@ function RecipeDetails({ match: { params, path } }) {
             setIngredientAndMeasureList(arrayIngredientAndMeasure);
           }
         }
+      }
+      if (recipe[type] === undefined) {
+        updateInProgress(arrayIngredientAndMeasure);
       }
     };
     ingredientAndMeasureArray();
@@ -87,6 +108,7 @@ function RecipeDetails({ match: { params, path } }) {
         className="footerBtn"
         type="button"
         data-testid="start-recipe-btn"
+        onClick={ () => history.push(`${url}/in-progress`) }
       >
         Start Recipe
       </button>
