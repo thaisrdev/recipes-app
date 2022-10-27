@@ -46,6 +46,7 @@ function Meals() {
     setCategory([]);
   };
 
+  console.log(mealCategories);
   return (
     <div>
       <Header title="Meals" />

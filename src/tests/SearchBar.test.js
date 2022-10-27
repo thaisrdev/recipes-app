@@ -3,23 +3,18 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/renderWithRouter';
 import RecipesContext from '../context/RecipesContext';
-import Drinks from '../Pages/Drinks';
 import Meals from '../Pages/Meals';
+import SearchBar from '../components/SearchBar';
+
+const mealName = 'Katsu Chicken curry';
 
 global.fetch = jest.fn(() => Promise
-  .resolve({ json: () => Promise.resolve({ meals: 'Katsu Chicken curry' }),
+  .resolve({ json: () => Promise.resolve({ meals: mealName }),
   }));
 
 const ingredientRadioId = 'ingredient-search-radio';
-const searchBtnId = 'search-btn';
-const searchInputId = 'search-input';
+
 describe('Testa a SearchBar pelo componente Drinks', () => {
-  window.alert = jest.fn();
-
-  beforeEach(() => {
-    fetch.mockClear();
-  });
-
   const INITIAL_STATE = {
     title: 'Drinks',
     handleTitle: () => {},
@@ -28,12 +23,20 @@ describe('Testa a SearchBar pelo componente Drinks', () => {
     listRecipeMeal: { meals: [] },
     listRecipeDrinks: { drinks: [] },
   };
+
+  window.alert = jest.fn();
+
+  beforeEach(() => {
+    fetch.mockClear();
+  });
+
   it('Verifica se os radio button e o button estão na tela ao renderizar', () => {
-    const title = 'Drinks';
+    const searchValue = 'margarita';
     renderWithRouter(
       <RecipesContext.Provider value={ INITIAL_STATE }>
-        <Drinks title={ title } />
+        <SearchBar searchValue={ searchValue } />
       </RecipesContext.Provider>,
+      ['drinks'],
     );
 
     const nameRadio = screen.getByRole('radio', { name: /name/i });
@@ -53,75 +56,63 @@ describe('Testa a SearchBar pelo componente Drinks', () => {
   });
 
   it('Verifica filtro por nome na pagina de Drinks', () => {
-    const title = 'Drinks';
+    const searchValue = 'margarita';
     renderWithRouter(
       <RecipesContext.Provider value={ INITIAL_STATE }>
-        <Drinks title={ title } />
+        <SearchBar searchValue={ searchValue } />
       </RecipesContext.Provider>,
+      ['drinks'],
     );
-    const btnSearch = screen.getByTestId(searchBtnId);
-    userEvent.click(btnSearch);
 
-    const inputSearch = screen.getByTestId(searchInputId);
-    userEvent.type(inputSearch, 'gin');
+    const searchBtn = screen.getByRole('button', { name: /search/i });
+    expect(searchBtn).toBeInTheDocument();
 
     const nameRadio = screen.getByRole('radio', { name: /name/i });
     userEvent.click(nameRadio);
-
-    const searchBtn = screen.getByRole('button', { name: /search/i });
     userEvent.click(searchBtn);
+    expect(fetch).toHaveBeenCalledTimes(1);
   });
   it('Verifica filtro por ingrediente na pagina de Drinks', () => {
-    const title = 'Drinks';
+    const searchValue = 'margarita';
     renderWithRouter(
       <RecipesContext.Provider value={ INITIAL_STATE }>
-        <Drinks title={ title } />
+        <SearchBar searchValue={ searchValue } />
       </RecipesContext.Provider>,
+      ['drinks'],
     );
-    const btnSearch = screen.getByTestId(searchBtnId);
-    userEvent.click(btnSearch);
 
-    const inputSearch = screen.getByTestId(searchInputId);
-    userEvent.type(inputSearch, 'gin');
+    const searchBtn = screen.getByRole('button', { name: /search/i });
+    expect(searchBtn).toBeInTheDocument();
 
     const ingredientRadio = screen.getByTestId(ingredientRadioId);
     userEvent.click(ingredientRadio);
-
-    const searchBtn = screen.getByRole('button', { name: /search/i });
     userEvent.click(searchBtn);
+    expect(fetch).toHaveBeenCalledTimes(1);
   });
   it('Verifica filtro pela primeira letra (com somente uma letra) na pagina de Drinks', () => {
-    const title = 'Drinks';
+    const searchValue = 'm';
     renderWithRouter(
       <RecipesContext.Provider value={ INITIAL_STATE }>
-        <Drinks title={ title } />
+        <SearchBar searchValue={ searchValue } />
       </RecipesContext.Provider>,
+      ['drinks'],
     );
-    const btnSearch = screen.getByTestId(searchBtnId);
-    userEvent.click(btnSearch);
-
-    const inputSearch = screen.getByTestId(searchInputId);
-    userEvent.type(inputSearch, 'g');
 
     const firstLetterRadio = screen.getByRole('radio', { name: /first letter/i });
     userEvent.click(firstLetterRadio);
 
     const searchBtn = screen.getByRole('button', { name: /search/i });
     userEvent.click(searchBtn);
+    expect(fetch).toHaveBeenCalledTimes(1);
   });
   it('Verifica filtro pela primeira letra (com mais de uma letra) na pagina de Drinks', () => {
-    const title = 'Drinks';
+    const searchValue = 'ma';
     renderWithRouter(
       <RecipesContext.Provider value={ INITIAL_STATE }>
-        <Drinks title={ title } />
+        <SearchBar searchValue={ searchValue } />
       </RecipesContext.Provider>,
+      ['drinks'],
     );
-    const btnSearch = screen.getByTestId(searchBtnId);
-    userEvent.click(btnSearch);
-
-    const inputSearch = screen.getByTestId(searchInputId);
-    userEvent.type(inputSearch, 'gi');
-
     const firstLetterRadio = screen.getByRole('radio', { name: /first letter/i });
     userEvent.click(firstLetterRadio);
 
@@ -147,98 +138,69 @@ describe('Testa a SearchBar pelo componente Meals', () => {
     listRecipeDrinks: { drinks: [] },
   };
   it('Verifica filtro por nome na pagina de Meals', () => {
-    const title = 'Meals';
+    const searchValue = 'chicken';
     renderWithRouter(
       <RecipesContext.Provider value={ INITIAL_STATE }>
-        <Meals title={ title } />
+        <SearchBar searchValue={ searchValue } />
       </RecipesContext.Provider>,
+      ['meals'],
     );
-    const btnSearch = screen.getByTestId(searchBtnId);
-    userEvent.click(btnSearch);
-
-    const inputSearch = screen.getByTestId(searchInputId);
-    userEvent.type(inputSearch, 'chicken');
 
     const nameRadio = screen.getByRole('radio', { name: /name/i });
     userEvent.click(nameRadio);
 
     const searchBtn = screen.getByRole('button', { name: /search/i });
     userEvent.click(searchBtn);
+    expect(fetch).toHaveBeenCalledTimes(1);
   });
   it('Verifica filtro por ingrediente na pagina de Meals', () => {
-    const title = 'Meals';
+    const searchValue = 'chicken';
     renderWithRouter(
       <RecipesContext.Provider value={ INITIAL_STATE }>
-        <Meals title={ title } />
+        <SearchBar searchValue={ searchValue } />
       </RecipesContext.Provider>,
+      ['meals'],
     );
-    const btnSearch = screen.getByTestId(searchBtnId);
-    userEvent.click(btnSearch);
-
-    const inputSearch = screen.getByTestId(searchInputId);
-    userEvent.type(inputSearch, 'chicken');
 
     const ingredientRadio = screen.getByTestId(ingredientRadioId);
     userEvent.click(ingredientRadio);
 
     const searchBtn = screen.getByRole('button', { name: /search/i });
     userEvent.click(searchBtn);
+    expect(fetch).toHaveBeenCalledTimes(1);
   });
   it('Verifica filtro pela primeira letra (com somente uma letra) na pagina de Meals', () => {
-    const title = 'Meals';
+    const searchValue = 'c';
     renderWithRouter(
       <RecipesContext.Provider value={ INITIAL_STATE }>
-        <Meals title={ title } />
+        <SearchBar searchValue={ searchValue } />
       </RecipesContext.Provider>,
+      ['meals'],
     );
-    const btnSearch = screen.getByTestId(searchBtnId);
-    userEvent.click(btnSearch);
-
-    const inputSearch = screen.getByTestId(searchInputId);
-    userEvent.type(inputSearch, 'c');
 
     const firstLetterRadio = screen.getByRole('radio', { name: /first letter/i });
     userEvent.click(firstLetterRadio);
 
     const searchBtn = screen.getByRole('button', { name: /search/i });
     userEvent.click(searchBtn);
+    expect(fetch).toHaveBeenCalledTimes(1);
   });
   it('Verifica filtro pela primeira letra (com mais de uma letra) na pagina de Meals', () => {
-    const title = 'Meals';
+    const searchValue = 'ch';
     renderWithRouter(
       <RecipesContext.Provider value={ INITIAL_STATE }>
-        <Meals title={ title } />
+        <SearchBar searchValue={ searchValue } />
       </RecipesContext.Provider>,
+      ['meals'],
     );
-    const btnSearch = screen.getByTestId(searchBtnId);
-    userEvent.click(btnSearch);
-
-    const inputSearch = screen.getByTestId(searchInputId);
-    userEvent.type(inputSearch, 'ch');
 
     const firstLetterRadio = screen.getByRole('radio', { name: /first letter/i });
     userEvent.click(firstLetterRadio);
 
     const searchBtn = screen.getByRole('button', { name: /search/i });
     userEvent.click(searchBtn);
+    expect(fetch).toHaveBeenCalledTimes(0);
     window.alert.mockClear();
-  });
-  it('verifica se é redirecionado para meals', () => {
-    const { history } = renderWithRouter(
-      <RecipesContext.Provider value={ INITIAL_STATE }>
-        <Meals title={ title } />
-      </RecipesContext.Provider>,
-    );
-    act(() => {
-      history.push('/meals');
-    });
-
-    const mealsPage = screen.getByRole('img');
-    expect(mealsPage).toBeInTheDocument();
-
-    const imgPokedex = screen.getByRole('img');
-    const altImg = 'meal-img';
-    expect(imgPokedex.alt).toBe(altImg);
   });
 });
 
@@ -256,29 +218,38 @@ describe('Testa redirecionamento', () => {
     updateListDrinks: () => {},
     listRecipeMeal: { meals: [] },
     listRecipeDrinks: { drinks: [] },
+    mealCategories: [
+      { strCategory: 'Beef' }, { strCategory: 'Breakfast' }, { strCategory: 'Chicken' }, { strCategory: 'Dessert' }, { strCategory: 'Goat' },
+    ],
+    setMealCategories: () => {},
+
   };
-  it.skip('Verifica redirecionamento para pagina meals details quando retornar somente um resultado', () => {
-    const title = 'Meals';
+  it('Verifica redirecionamento para pagina meals details quando retornar somente um resultado', async () => {
     const { history } = renderWithRouter(
       <RecipesContext.Provider value={ INITIAL_STATE }>
-        <Meals title={ title } />
+        <Meals searchValue={ mealName } />
       </RecipesContext.Provider>,
+      ['meals'],
     );
     const { pathname } = history.location;
-    expect(pathname).toBe('/meals');
-    const btnSearch = screen.getByTestId(searchBtnId);
-    userEvent.click(btnSearch);
-
-    const inputSearch = screen.getByTestId(searchInputId);
-    userEvent.type(inputSearch, 'Katsu Chicken curry');
+    expect(pathname).toBe('meals');
 
     const nameRadio = screen.getByRole('radio', { name: /name/i });
     userEvent.click(nameRadio);
 
+    const activeSearchBtn = screen.getByRole('button', { name: /icone de pesquisa/i });
+    expect(activeSearchBtn).toBeInTheDocument();
+    userEvent.click(activeSearchBtn);
+
+    const inputSearch = screen.getByTestId('search-input');
+    expect(inputSearch).toBeInTheDocument();
+    userEvent.type(inputSearch, 'Katsu Chicken curry');
+
     const searchBtn = screen.getByRole('button', { name: /search/i });
     userEvent.click(searchBtn);
 
-    expect(fetch).toHaveBeenCalledTimes(2);
-    console.log(pathname);
+    expect(fetch).toHaveBeenCalledTimes(3);
+    // expect(await screen.findByTestId('teste', {}, { timeout: 5000 })).toBeInTheDocument();
+    // expect(pathname).toBe('mealsss');
   });
 });
