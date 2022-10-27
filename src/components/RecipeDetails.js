@@ -5,6 +5,7 @@ import {
   getAllDrinks, getAllMeals,
 } from '../services/api';
 import RecipeDetailsCard from './RecipeDetailsCard';
+import RecommendationCard from './RecommendationCard';
 
 function RecipeDetails({ match: { params, path } }) {
   const mealUrl = '/meals/:id';
@@ -16,8 +17,7 @@ function RecipeDetails({ match: { params, path } }) {
   const [ingredientAndMeasureList, setIngredientAndMeasureList] = useState(
     [{ ingredient: '', measure: '' }],
   );
-  const [recommendation, setRecommendation] = useState(path === mealUrl
-    ? { drinks: [] } : { meals: [] });
+  const [recommendation, setRecommendation] = useState([]);
 
   useEffect(() => {
     if (path === '/meals/:id') {
@@ -30,7 +30,7 @@ function RecipeDetails({ match: { params, path } }) {
       getMealByIdApi();
       const getDrinkRecommendationApi = async () => {
         const drinkRecommendation = await getAllDrinks();
-        setRecommendation(drinkRecommendation);
+        setRecommendation(drinkRecommendation.drinks);
       };
       getDrinkRecommendationApi();
     } else {
@@ -43,7 +43,7 @@ function RecipeDetails({ match: { params, path } }) {
       getDrinkByIdApi();
       const getMealRecommendationApi = async () => {
         const mealRecommendation = await getAllMeals();
-        setRecommendation(mealRecommendation);
+        setRecommendation(mealRecommendation.meals);
       };
       getMealRecommendationApi();
     }
@@ -68,7 +68,6 @@ function RecipeDetails({ match: { params, path } }) {
     };
     ingredientAndMeasureArray();
   }, [recipe, type]);
-  console.log(recommendation);
   return (
     <div>
       <h3 data-testid="teste">Recipe Details</h3>
@@ -81,6 +80,16 @@ function RecipeDetails({ match: { params, path } }) {
         video={ recipe.strYoutube }
         ingredientAndMeasure={ ingredientAndMeasureList }
       />
+      <div className="scrolling">
+        <RecommendationCard recommendation={ recommendation } />
+      </div>
+      <button
+        className="footerBtn"
+        type="button"
+        data-testid="start-recipe-btn"
+      >
+        Start Recipe
+      </button>
     </div>
   );
 }

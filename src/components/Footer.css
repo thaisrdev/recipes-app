@@ -4,3 +4,9 @@
   position: fixed;
   width: 100%;
 }
+
+.footerBtn {
+  bottom: 0;
+  display: flex;
+  position: fixed;
+}

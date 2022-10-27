@@ -3,6 +3,19 @@
   margin: 0;
 }
 
+.cardRecommendation {
+  display: inline-block;
+  margin-left: 3em;
+  width: 25%;
+}
+
+.scrolling {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  width: 50%;
+}
+
 .meals {
   align-items: center;
   background: #0fa36b;
