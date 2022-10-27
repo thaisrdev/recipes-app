@@ -13,6 +13,7 @@ function Drinks() {
   } = useContext(RecipesContext);
 
   const [category, setCategory] = useState([]);
+  const [savedParam, setSavedParam] = useState('');
 
   useEffect(() => {
     document.title = 'Drinks';
@@ -21,7 +22,6 @@ function Drinks() {
   useEffect(() => {
     const getDrinksApi = async () => {
       const totalDrinks = await getAllDrinks();
-      console.log(totalDrinks);
       updateListDrinks(totalDrinks);
     };
     getDrinksApi();
@@ -31,20 +31,26 @@ function Drinks() {
     const getCategoriesApi = async () => {
       const categories = await getDrinkCategories();
       const results = categories.drinks.slice(0, +'5');
-      console.log(results);
       setDrinkCategories(results);
     };
     getCategoriesApi();
   }, []);
 
   const handleClick = async (param) => {
-    const filterCategory = await filterDrinkCategories(param);
-    console.log(filterCategory);
-    setCategory(filterCategory.drinks);
+    if (savedParam === param) {
+      setCategory([]);
+      setSavedParam('');
+    } else {
+      const filterCategory = await filterDrinkCategories(param);
+      console.log(filterCategory);
+      setCategory(filterCategory.drinks);
+      setSavedParam(param);
+    }
   };
 
   const handleAllFilters = () => {
     setCategory([]);
+    console.log(category);
   };
 
   return (
