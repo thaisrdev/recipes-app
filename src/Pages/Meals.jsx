@@ -13,6 +13,7 @@ function Meals() {
   } = useContext(RecipesContext);
 
   const [category, setCategory] = useState([]);
+  const [savedParam, setSavedParam] = useState('');
 
   useEffect(() => {
     document.title = 'Meals';
@@ -37,13 +38,21 @@ function Meals() {
   }, []);
 
   const handleClick = async (param) => {
-    const filterCategory = await filterMealCategories(param);
-    console.log(filterCategory);
-    setCategory(filterCategory.meals);
+    if (savedParam === param) {
+      setCategory([]);
+      setSavedParam('');
+    } else {
+      const filter = await filterMealCategories(param);
+      const filterCategory = filter.meals;
+      console.log(filterCategory);
+      setCategory(filterCategory);
+      setSavedParam(param);
+    }
   };
 
   const handleAllFilters = () => {
     setCategory([]);
+    console.log(category);
   };
 
   console.log(mealCategories);
