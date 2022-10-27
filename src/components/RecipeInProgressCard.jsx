@@ -1,9 +1,26 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 
 function RecipeInProgressCard({
   title, photo, category, ingredientAndMeasure, instructions, type, video,
 }) {
+  const [inputs, setInputs] = useState([{}]);
+
+  function handleChange(id, isChecked) {
+    setInputs({
+      ...inputs,
+      [id]: isChecked,
+    });
+  }
+  function handleClick({ target }) {
+    const { checked, id } = target;
+    handleChange(id, checked);
+    // if (elemento.getElementsByTagName('input')[0].checked === true) {
+    //   elemento.style.textDecorationLine = 'line-through';
+    // } else {
+    //   elemento.style.textDecorationLine = 'none';
+    // }
+  }
   return (
     <div>
       <p><img data-testid="recipe-photo" alt={ title } src={ photo } /></p>
@@ -18,10 +35,17 @@ function RecipeInProgressCard({
           >
             <label
               data-testid={ `data-testid=${index}-ingredient-step` }
+              className={ inputs[index]
+                ? 'doneMeasureAndIngredient' : 'notDoneMeasureAndIngredient' }
               htmlFor={ index }
               key={ index }
             >
-              <input type="checkbox" id={ index } />
+              <input
+                name={ index }
+                type="checkbox"
+                id={ index }
+                onClick={ handleClick }
+              />
               { `${element.ingredient} - ${element.measure}` }
             </label>
           </li>

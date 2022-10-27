@@ -16,6 +16,14 @@
   width: 50%;
 }
 
+.doneMeasureAndIngredient {
+  text-decoration: line-through solid black;
+}
+
+.notDoneMeasureAndIngredient {
+  text-decoration: none;
+}
+
 .meals {
   align-items: center;
   background: #0fa36b;
