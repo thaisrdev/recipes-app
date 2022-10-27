@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { getDrinkById, getMealById } from '../services/api';
+import {
+  getDrinkById, getMealById,
+  getAllDrinks, getAllMeals,
+} from '../services/api';
 import RecipeDetailsCard from './RecipeDetailsCard';
+import RecommendationCard from './RecommendationCard';
 
 function RecipeDetails({ match: { params, path } }) {
   const mealUrl = '/meals/:id';
@@ -13,6 +17,7 @@ function RecipeDetails({ match: { params, path } }) {
   const [ingredientAndMeasureList, setIngredientAndMeasureList] = useState(
     [{ ingredient: '', measure: '' }],
   );
+  const [recommendation, setRecommendation] = useState([]);
 
   useEffect(() => {
     if (path === '/meals/:id') {
@@ -23,6 +28,11 @@ function RecipeDetails({ match: { params, path } }) {
         setType('meals');
       };
       getMealByIdApi();
+      const getDrinkRecommendationApi = async () => {
+        const drinkRecommendation = await getAllDrinks();
+        setRecommendation(drinkRecommendation.drinks);
+      };
+      getDrinkRecommendationApi();
     } else {
       const getDrinkByIdApi = async () => {
         const drinkById = await getDrinkById(params.id);
@@ -31,6 +41,11 @@ function RecipeDetails({ match: { params, path } }) {
         setType('drinks');
       };
       getDrinkByIdApi();
+      const getMealRecommendationApi = async () => {
+        const mealRecommendation = await getAllMeals();
+        setRecommendation(mealRecommendation.meals);
+      };
+      getMealRecommendationApi();
     }
   }, [params.id, path]);
 
@@ -53,7 +68,6 @@ function RecipeDetails({ match: { params, path } }) {
     };
     ingredientAndMeasureArray();
   }, [recipe, type]);
-  console.log(recipe);
   return (
     <div>
       <h3 data-testid="teste">Recipe Details</h3>
@@ -66,6 +80,16 @@ function RecipeDetails({ match: { params, path } }) {
         video={ recipe.strYoutube }
         ingredientAndMeasure={ ingredientAndMeasureList }
       />
+      <div className="scrolling">
+        <RecommendationCard recommendation={ recommendation } />
+      </div>
+      <button
+        className="footerBtn"
+        type="button"
+        data-testid="start-recipe-btn"
+      >
+        Start Recipe
+      </button>
     </div>
   );
 }
