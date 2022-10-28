@@ -30,13 +30,13 @@ function App() {
             <Route path="/drinks/:id" component={ RecipeDetails } />
             <Route exact path="/drinks" component={ Drinks } />
 
-            <Route exact path="/meals" component={ Meals } />
-            <Route path="/meals/:id" component={ RecipeDetails } />
-
             <Route
+              exact
               path="/meals/:id/in-progress"
               component={ RecipeInProgress }
             />
+            <Route path="/meals/:id" component={ RecipeDetails } />
+            <Route exact path="/meals" component={ Meals } />
 
             <Route exact path="/" component={ Login } />
             <Route path="*" component={ NotFound } />
