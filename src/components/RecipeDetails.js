@@ -83,6 +83,20 @@ function RecipeDetails({ match: { params, path, url } }) {
         video={ recipe.strYoutube }
         ingredientAndMeasure={ ingredientAndMeasureList }
       />
+      <button
+        type="button"
+        data-testid="share-btn"
+        onClick={ () => { console.log('share-btn'); } }
+      >
+        Share
+      </button>
+      <button
+        type="button"
+        data-testid="favorite-btn"
+        onClick={ () => { console.log('favorite-btn'); } }
+      >
+        Favorite
+      </button>
       <div className="scrolling">
         <RecommendationCard recommendation={ recommendation } />
       </div>
