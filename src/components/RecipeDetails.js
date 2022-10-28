@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import {
   getDrinkById, getMealById,
   getAllDrinks, getAllMeals,
 } from '../services/api';
-import RecipesContext from '../context/RecipesContext';
 import RecipeDetailsCard from './RecipeDetailsCard';
 import RecommendationCard from './RecommendationCard';
 
@@ -21,7 +20,6 @@ function RecipeDetails({ match: { params, path, url } }) {
   );
   const [recommendation, setRecommendation] = useState([]);
 
-  const { updateRecipeInProgress } = useContext(RecipesContext);
   const history = useHistory();
 
   useEffect(() => {
@@ -54,19 +52,6 @@ function RecipeDetails({ match: { params, path, url } }) {
     }
   }, [params.id, path]);
 
-  const updateInProgress = (array) => {
-    const obj = {
-      isMeal,
-      photo: (path === mealUrl ? recipe.strMealThumb : recipe.strDrinkThumb),
-      title: (path === mealUrl ? recipe.strMeal : recipe.strDrink),
-      category: (path === mealUrl ? recipe.strCategory : recipe.strAlcoholic),
-      instructions: (recipe.strInstructions),
-      video: (recipe.strYoutube),
-      ingredientAndMeasure: (array),
-    };
-    updateRecipeInProgress(obj);
-  };
-
   useEffect(() => {
     const ingredientAndMeasureArray = () => {
       const maxFor = 19;
@@ -82,9 +67,6 @@ function RecipeDetails({ match: { params, path, url } }) {
             setIngredientAndMeasureList(arrayIngredientAndMeasure);
           }
         }
-      }
-      if (recipe[type] === undefined) {
-        updateInProgress(arrayIngredientAndMeasure);
       }
     };
     ingredientAndMeasureArray();
