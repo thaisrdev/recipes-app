@@ -62,6 +62,7 @@ function RecipeInProgress({ match }) {
         instructions={ recipe.strInstructions }
         video={ recipe.strYoutube }
         ingredientAndMeasure={ ingredientAndMeasureList }
+        id={ params.id }
       />
     </div>
   );
