@@ -1,10 +1,12 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/renderWithRouter';
 import RecipesContext from '../context/RecipesContext';
-import Meals from '../Pages/Meals';
+import App from '../App';
 import SearchBar from '../components/SearchBar';
+import drinks from '../../cypress/mocks/drinks';
+import meals from '../../cypress/mocks/meals';
 
 const mealName = 'Katsu Chicken curry';
 
@@ -204,52 +206,50 @@ describe('Testa a SearchBar pelo componente Meals', () => {
   });
 });
 
-describe('Testa redirecionamento', () => {
-  window.alert = jest.fn();
-
+describe('Testa redirecionamento Drinks', () => {
   beforeEach(() => {
-    fetch.mockClear();
+    global.fetch = jest.fn(() => Promise
+      .resolve({ json: () => Promise.resolve({ drinks: [drinks.drinks[0]] }),
+      }));
   });
 
-  const INITIAL_STATE = {
-    title: 'Drinks',
-    handleTitle: () => {},
-    updateListMeals: () => {},
-    updateListDrinks: () => {},
-    listRecipeMeal: { meals: [] },
-    listRecipeDrinks: { drinks: [] },
-    mealCategories: [
-      { strCategory: 'Beef' }, { strCategory: 'Breakfast' }, { strCategory: 'Chicken' }, { strCategory: 'Dessert' }, { strCategory: 'Goat' },
-    ],
-    setMealCategories: () => {},
-
-  };
-  it('Verifica redirecionamento para pagina meals details quando retornar somente um resultado', async () => {
-    const { history } = renderWithRouter(
-      <RecipesContext.Provider value={ INITIAL_STATE }>
-        <Meals searchValue={ mealName } />
-      </RecipesContext.Provider>,
-      ['meals'],
-    );
-    const { pathname } = history.location;
-    expect(pathname).toBe('meals');
-
-    const nameRadio = screen.getByRole('radio', { name: /name/i });
+  it('Verifica redirecionamento para pagina Drinks details quando retornar somente um resultado', async () => {
+    renderWithRouter(<App />, ['/drinks']);
+    const nameRadio = screen.getByLabelText('Name');
     userEvent.click(nameRadio);
-
     const activeSearchBtn = screen.getByRole('button', { name: /icone de pesquisa/i });
     expect(activeSearchBtn).toBeInTheDocument();
     userEvent.click(activeSearchBtn);
-
     const inputSearch = screen.getByTestId('search-input');
     expect(inputSearch).toBeInTheDocument();
     userEvent.type(inputSearch, 'Katsu Chicken curry');
-
     const searchBtn = screen.getByRole('button', { name: /search/i });
     userEvent.click(searchBtn);
+    const chicken = await screen.findByRole('heading', { name: /recipe details/i });
+    await waitFor(() => expect(chicken).toBeInTheDocument());
+  });
+});
 
-    expect(fetch).toHaveBeenCalledTimes(3);
-    // expect(await screen.findByTestId('teste', {}, { timeout: 5000 })).toBeInTheDocument();
-    // expect(pathname).toBe('mealsss');
+describe('Testa redirecionamento Meals', () => {
+  beforeEach(() => {
+    global.fetch = jest.fn(() => Promise
+      .resolve({ json: () => Promise.resolve({ meals: [meals.meals[0]] }),
+      }));
+  });
+
+  it('Verifica redirecionamento para pagina Meals details quando retornar somente um resultado', async () => {
+    renderWithRouter(<App />, ['/meals']);
+    const nameRadio = screen.getByLabelText('Name');
+    userEvent.click(nameRadio);
+    const activeSearchBtn = screen.getByRole('button', { name: /icone de pesquisa/i });
+    expect(activeSearchBtn).toBeInTheDocument();
+    userEvent.click(activeSearchBtn);
+    const inputSearch = screen.getByTestId('search-input');
+    expect(inputSearch).toBeInTheDocument();
+    userEvent.type(inputSearch, 'Adam Sunrise');
+    const searchBtn = screen.getByRole('button', { name: /search/i });
+    userEvent.click(searchBtn);
+    const chicken = await screen.findByRole('heading', { name: /recipe details/i });
+    await waitFor(() => expect(chicken).toBeInTheDocument());
   });
 });
