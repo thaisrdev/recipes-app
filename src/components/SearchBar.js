@@ -42,7 +42,6 @@ function SearchBar({ searchValue }) {
   };
 
   const verifySearchDrinks = (data) => {
-    console.log(data.drinks.length);
     const alert = 'Sorry, we haven\'t found any recipes for these filters.';
     if ((title === 'Drinks') && (data.drinks.length === 0)) {
       global.alert(alert);

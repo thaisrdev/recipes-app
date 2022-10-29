@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { getAllMeals, getMealCategories, filterMealCategories } from '../services/api';
@@ -14,6 +15,7 @@ function Meals() {
 
   const [category, setCategory] = useState([]);
   const [savedParam, setSavedParam] = useState('');
+  const history = useHistory();
 
   useEffect(() => {
     document.title = 'Meals';
@@ -42,10 +44,9 @@ function Meals() {
       setCategory([]);
       setSavedParam('');
     } else {
-      const filter = await filterMealCategories(param);
-      const filterCategory = filter.meals;
+      const filterCategory = await filterMealCategories(param);
       console.log(filterCategory);
-      setCategory(filterCategory);
+      setCategory(filterCategory.meals);
       setSavedParam(param);
     }
   };
@@ -55,7 +56,6 @@ function Meals() {
     console.log(category);
   };
 
-  console.log(mealCategories);
   return (
     <div>
       <Header title="Meals" />
@@ -81,12 +81,18 @@ function Meals() {
 
       { category.length > 0 ? category.slice(0, +'12')
         .map((element, index) => (
-          <div key={ index } data-testid={ `${index}-recipe-card` }>
+          <button
+            type="button"
+            key={ index }
+            data-testid={ `${index}-recipe-card` }
+            onClick={ () => history.push(`/meals/${element.idMeal}`) }
+          >
 
             <img
               src={ element.strMealThumb }
               alt="meal-img"
               data-testid={ `${index}-card-img` }
+              width="300px"
             />
             <p
               data-testid={ `${index}-card-name` }
@@ -94,16 +100,22 @@ function Meals() {
               { element.strMeal }
             </p>
 
-          </div>
+          </button>
         ))
         : listRecipeMeal.meals.slice(0, +'12')
           .map((element, index) => (
-            <div key={ index } data-testid={ `${index}-recipe-card` }>
+            <button
+              type="button"
+              key={ index }
+              data-testid={ `${index}-recipe-card` }
+              onClick={ () => history.push(`/meals/${element.idMeal}`) }
+            >
 
               <img
                 src={ element.strMealThumb }
                 alt="meal-img"
                 data-testid={ `${index}-card-img` }
+                width="300px"
               />
               <p
                 data-testid={ `${index}-card-name` }
@@ -111,7 +123,7 @@ function Meals() {
                 { element.strMeal }
               </p>
 
-            </div>
+            </button>
           ))}
       <Footer />
     </div>

@@ -1,10 +1,48 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function RecipeInProgressCard({
-  title, photo, category, ingredientAndMeasure, instructions, type, video,
+  title, photo, category, ingredientAndMeasure, instructions, type, video, idRecipe,
 }) {
   const [inputs, setInputs] = useState([{}]);
+  const [used, setUsed] = useState([]);
+
+  // const obj = {
+  //   drinks: {
+  //     id: [],
+  //   },
+  //   meals: {
+  //     id: [],
+  //   },
+  // };
+
+  console.log(used);
+  console.log(idRecipe);
+
+  useEffect(() => {
+    let inputsStorage = [];
+    if (Object.prototype.hasOwnProperty.call(localStorage, 'inProgressRecipes')) {
+      inputsStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      console.log(inputsStorage);
+      // setUsed(inputsStorage.idRecipe);
+    }
+    console.log(inputsStorage);
+  }, []);
+
+  // useEffect(() => {
+  //   if (used.length > 0) {
+  //     const teste = { idRecipe: [...used] };
+  //     localStorage.setItem('inProgressRecipes', JSON.stringify(obj));
+  //   }
+  // }, [used, setUsed]);
+
+  // useEffect(() => {
+  //   console.log('atualizou input', inputs);
+  //   const obj = {
+  //     id: []
+  //   }
+  //   localStorage.setItem(type, JSON.stringify())
+  // }, [inputs, setInputs]);
 
   function handleChange(id, isChecked) {
     setInputs({
@@ -13,13 +51,10 @@ function RecipeInProgressCard({
     });
   }
   function handleClick({ target }) {
-    const { checked, id } = target;
+    const { checked, id, name } = target;
     handleChange(id, checked);
-    // if (elemento.getElementsByTagName('input')[0].checked === true) {
-    //   elemento.style.textDecorationLine = 'line-through';
-    // } else {
-    //   elemento.style.textDecorationLine = 'none';
-    // }
+
+    setUsed((prevState) => [...prevState, name]);
   }
   return (
     <div>
@@ -41,7 +76,7 @@ function RecipeInProgressCard({
               key={ index }
             >
               <input
-                name={ index }
+                name={ element.ingredient }
                 type="checkbox"
                 id={ index }
                 onClick={ handleClick }
@@ -75,6 +110,7 @@ RecipeInProgressCard.propTypes = {
   isMeal: PropTypes.any,
   photo: PropTypes.any,
   title: PropTypes.any,
+  idRecipe: PropTypes.any,
   video: PropTypes.shape({
     replace: PropTypes.func,
   }),

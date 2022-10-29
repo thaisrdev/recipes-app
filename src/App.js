@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, BrowserRouter } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RecipesProvider from './context/RecipesProvider';
@@ -17,31 +17,29 @@ function App() {
   return (
     <main>
       <RecipesProvider>
-        <BrowserRouter>
-          <Switch>
-            <Route path="/favorite-recipes" component={ FavoriteRecipes } />
-            <Route path="/done-recipes" component={ DoneRecipes } />
-            <Route path="/profile" component={ Profile } />
+        <Switch>
+          <Route path="/favorite-recipes" component={ FavoriteRecipes } />
+          <Route path="/done-recipes" component={ DoneRecipes } />
+          <Route path="/profile" component={ Profile } />
 
-            <Route
-              path="/drinks/:id/in-progress"
-              component={ RecipeInProgress }
-            />
-            <Route path="/drinks/:id" component={ RecipeDetails } />
-            <Route exact path="/drinks" component={ Drinks } />
+          <Route
+            path="/drinks/:id/in-progress"
+            component={ RecipeInProgress }
+          />
+          <Route path="/drinks/:id" component={ RecipeDetails } />
+          <Route exact path="/drinks" component={ Drinks } />
 
-            <Route
-              exact
-              path="/meals/:id/in-progress"
-              component={ RecipeInProgress }
-            />
-            <Route path="/meals/:id" component={ RecipeDetails } />
-            <Route exact path="/meals" component={ Meals } />
+          <Route
+            exact
+            path="/meals/:id/in-progress"
+            component={ RecipeInProgress }
+          />
+          <Route path="/meals/:id" component={ RecipeDetails } />
+          <Route exact path="/meals" component={ Meals } />
 
-            <Route exact path="/" component={ Login } />
-            <Route path="*" component={ NotFound } />
-          </Switch>
-        </BrowserRouter>
+          <Route exact path="/" component={ Login } />
+          <Route path="*" component={ NotFound } />
+        </Switch>
       </RecipesProvider>
     </main>
   );

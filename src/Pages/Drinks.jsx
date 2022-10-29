@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { getAllDrinks, getDrinkCategories, filterDrinkCategories } from '../services/api';
@@ -14,6 +15,7 @@ function Drinks() {
 
   const [category, setCategory] = useState([]);
   const [savedParam, setSavedParam] = useState('');
+  const history = useHistory();
 
   useEffect(() => {
     document.title = 'Drinks';
@@ -52,7 +54,6 @@ function Drinks() {
     setCategory([]);
     console.log(category);
   };
-  //
 
   return (
     <div>
@@ -79,12 +80,18 @@ function Drinks() {
 
       { category.length > 0 ? category.slice(0, +'12')
         .map((element, index) => (
-          <div key={ index } data-testid={ `${index}-recipe-card` }>
+          <button
+            type="button"
+            key={ index }
+            data-testid={ `${index}-recipe-card` }
+            onClick={ () => history.push(`/drinks/${element.idDrink}`) }
+          >
 
             <img
               src={ element.strDrinkThumb }
               alt="drink-img"
               data-testid={ `${index}-card-img` }
+              width="300px"
             />
             <p
               data-testid={ `${index}-card-name` }
@@ -92,15 +99,21 @@ function Drinks() {
               { element.strDrink }
             </p>
 
-          </div>
+          </button>
         )) : listRecipeDrinks.drinks.slice(0, +'12')
         .map((e, index) => (
-          <div key={ index } data-testid={ `${index}-recipe-card` }>
+          <button
+            type="button"
+            key={ index }
+            data-testid={ `${index}-recipe-card` }
+            onClick={ () => history.push(`/drinks/${e.idDrink}`) }
+          >
 
             <img
               src={ e.strDrinkThumb }
               alt="drink-img"
               data-testid={ `${index}-card-img` }
+              width="300px"
             />
             <p
               data-testid={ `${index}-card-name` }
@@ -108,7 +121,7 @@ function Drinks() {
               { e.strDrink }
             </p>
 
-          </div>
+          </button>
         ))}
       <Footer />
     </div>
