@@ -20,6 +20,7 @@ function RecipeInProgress({ match }) {
       const getMealByIdApi = async () => {
         const mealById = await getMealById(params.id);
         setType('meals');
+        console.log(mealById);
         setRecipe(mealById.meals[0]);
       };
       getMealByIdApi();
@@ -27,6 +28,7 @@ function RecipeInProgress({ match }) {
       const getDrinkByIdApi = async () => {
         const drinkById = await getDrinkById(params.id);
         setType('drinks');
+        console.log(drinkById);
         setRecipe(drinkById.drinks[0]);
       };
       getDrinkByIdApi();
@@ -62,7 +64,10 @@ function RecipeInProgress({ match }) {
         instructions={ recipe.strInstructions }
         video={ recipe.strYoutube }
         ingredientAndMeasure={ ingredientAndMeasureList }
-        id={ params.id }
+        idRecipe={ params.id }
+        trueCategory={ recipe.strCategory }
+        tags={ recipe.strTags }
+        nationality={ path === mealUrl ? recipe.strArea : '' }
       />
     </div>
   );
