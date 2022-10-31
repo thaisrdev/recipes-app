@@ -1,4 +1,6 @@
 import React from 'react';
+// import { screen, waitFor } from '@testing-library/react';
+// import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/renderWithRouter';
 import App from '../App';
 import drinks from '../../cypress/mocks/drinks';
@@ -37,6 +39,8 @@ describe('Testa recipe in progress em drinks', () => {
   //   const startBtn = screen.getByRole('button', { name: /start recipe/i });
   //   expect(startBtn).toBeInTheDocument();
   //   userEvent.click(startBtn);
+  //   const titleDrink = await screen.getByRole('heading', { name: /gg/i });
+  //   expect(titleDrink).toBeInTheDocument();
   //   await waitFor(() => expect(pathname).toBe(DRINK_ID_INPROGRESS));
   // });
 });

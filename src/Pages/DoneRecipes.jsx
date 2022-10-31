@@ -29,13 +29,13 @@ function DoneRecipes() {
 
   const recipeFilter = (type) => {
     const allRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
-    if (type === 'meal') {
+    if (type === 'meal' && allRecipes !== null) {
       const recipesFilters = allRecipes.filter(
         (recipe) => recipe.type === type,
       );
       return recipesFilters;
     }
-    if (type === 'drink') {
+    if (type === 'drink' && allRecipes !== null) {
       const recipesFilters = allRecipes.filter(
         (recipe) => recipe.type === type,
       );
