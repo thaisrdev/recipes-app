@@ -58,6 +58,8 @@ function RecipeInProgressCard({
         setUsed(newArray);
       }
     });
+    console.log(used);
+    console.log(name);
     const includes = used.find((find) => (find === name));
     console.log(includes);
     if (includes !== name) {
@@ -100,10 +102,11 @@ function RecipeInProgressCard({
           >
             <label
               data-testid={ `data-testid=${index}-ingredient-step` }
-              className={
-                used.includes(`${element.ingredient} - ${element.measure}`)
-                  ? 'doneMeasureAndIngredient' : 'notDoneMeasureAndIngredient'
-              }
+              // className={
+              //   used.includes(`${element.ingredient} - ${element.measure}`)
+              //     ? 'doneMeasureAndIngredient' : 'notDoneMeasureAndIngredient'
+              // }
+              className="label"
               htmlFor={ index }
               key={ index }
             >
@@ -111,6 +114,7 @@ function RecipeInProgressCard({
                 checked={
                   used.find((u) => u === `${element.ingredient} - ${element.measure}`)
                 }
+                className="checkbox"
                 name={ `${element.ingredient} - ${element.measure}` }
                 type="checkbox"
                 id={ index }

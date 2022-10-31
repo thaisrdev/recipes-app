@@ -35,7 +35,7 @@ function SearchBar({ searchValue }) {
         history.push(`/meals/${listRecipeMeal.meals[0].idMeal}`);
       }
     }
-  }, [listRecipeDrinks, listRecipeMeal]);
+  }, [history, listRecipeDrinks, listRecipeMeal, title]);
 
   const handleChangeRadio = ({ target }) => {
     setTypeFilter(target.value);
