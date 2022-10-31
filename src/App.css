@@ -16,6 +16,10 @@
   width: 50%;
 }
 
+.label:has( > .checkbox:checked ) {
+  text-decoration: line-through solid black;
+}
+
 .doneMeasureAndIngredient {
   text-decoration: line-through solid black;
 }
