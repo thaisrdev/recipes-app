@@ -7,6 +7,8 @@ import {
 } from '../services/api';
 import RecipeDetailsCard from './RecipeDetailsCard';
 import RecommendationCard from './RecommendationCard';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 function RecipeDetails({ match: { params, path, url } }) {
   const mealUrl = '/meals/:id';
@@ -20,6 +22,7 @@ function RecipeDetails({ match: { params, path, url } }) {
   );
   const [recommendation, setRecommendation] = useState([]);
   const [isShared, setIsShared] = useState(false);
+  const [isFavorited, setIsFavorited] = useState(false);
 
   const history = useHistory();
 
@@ -87,6 +90,14 @@ function RecipeDetails({ match: { params, path, url } }) {
     }
   };
 
+  const addFavorite = () => {
+    setIsFavorited(true);
+  };
+
+  const removeFavorite = () => {
+    setIsFavorited(false);
+  };
+
   return (
     <div>
       <h3 data-testid="teste">Recipe Details</h3>
@@ -107,13 +118,27 @@ function RecipeDetails({ match: { params, path, url } }) {
         Share
       </button>
       {isShared && <h2>Link copied!</h2>}
-      <button
-        type="button"
-        data-testid="favorite-btn"
-        onClick={ () => { console.log('favorite-btn'); } }
-      >
-        Favorite
-      </button>
+
+      { isFavorited
+        ? (
+          <button
+            type="button"
+            data-testid="favorite-btn"
+            onClick={ removeFavorite }
+          >
+            <img src={ blackHeartIcon } alt="Favorited" />
+          </button>
+        )
+        : (
+          <button
+            type="button"
+            data-testid="favorite-btn"
+            onClick={ addFavorite }
+          >
+            <img src={ whiteHeartIcon } alt="Not Favorited" />
+          </button>
+        )}
+
       <div className="scrolling">
         <RecommendationCard recommendation={ recommendation } />
       </div>
