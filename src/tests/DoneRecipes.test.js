@@ -1,6 +1,6 @@
 import React from 'react';
-// import { screen, waitFor } from '@testing-library/react';
-// import userEvent from '@testing-library/user-event';
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/renderWithRouter';
 import App from '../App';
 
@@ -31,19 +31,29 @@ const doneRecipes = [
 
 describe('Testa Done Recipes', () => {
   beforeEach(() => {
-    Object.defineProperty(window, "localStorage", {
+    Object.defineProperty(window, 'localStorage', {
       value: {
-        getItem: jest.fn(() => doneRecipes),
+        getItem: jest.fn(() => null),
         setItem: jest.fn(() => null),
       },
       writable: true,
     });
   });
 
-  it('Verifica se renderiza a pagina com os elementos', async () => {
+  it('Verifica se renderiza a pagina com os elementos sem localStorage', async () => {
     const { history } = renderWithRouter(<App />, ['/done-recipes']);
     const { pathname } = history.location;
     expect(pathname).toBe('/done-recipes');
     expect(window.localStorage.getItem).toHaveBeenCalledTimes(1);
+
+    const allBtn = screen.getByRole('button', { name: /all/i });
+    expect(allBtn).toBeInTheDocument();
+    userEvent.click(allBtn);
+    const mealBtn = screen.getByRole('button', { name: /meals/i });
+    expect(mealBtn).toBeInTheDocument();
+    userEvent.click(mealBtn);
+    const drinkBtn = screen.getByRole('button', { name: /drinks/i });
+    expect(drinkBtn).toBeInTheDocument();
+    userEvent.click(drinkBtn);
   });
 });
