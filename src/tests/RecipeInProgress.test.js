@@ -41,6 +41,6 @@ describe('Testa recipe in progress em drinks', () => {
   //   userEvent.click(startBtn);
   //   const titleDrink = await screen.getByRole('heading', { name: /gg/i });
   //   expect(titleDrink).toBeInTheDocument();
-  //   // await waitFor(() => expect(pathname).toBe(DRINK_ID_INPROGRESS));
+  //   await waitFor(() => expect(pathname).toBe(DRINK_ID_INPROGRESS));
   // });
 });
