@@ -19,11 +19,12 @@ function RecipeDetails({ match: { params, path, url } }) {
     [{ ingredient: '', measure: '' }],
   );
   const [recommendation, setRecommendation] = useState([]);
+  const [isShared, setIsShared] = useState(false);
 
   const history = useHistory();
 
   useEffect(() => {
-    if (path === '/meals/:id') {
+    if (path === mealUrl) {
       const getMealByIdApi = async () => {
         const mealById = await getMealById(params.id);
         setRecipe(mealById.meals[0]);
@@ -71,6 +72,21 @@ function RecipeDetails({ match: { params, path, url } }) {
     };
     ingredientAndMeasureArray();
   }, [recipe, type]);
+
+  const handleShareClick = async () => {
+    setIsShared(true);
+    if (path === mealUrl) {
+      const mealById = await getMealById(params.id);
+      const code = mealById.meals[0].idMeal;
+      navigator.clipboard.writeText(`http://localhost:3000/meals/${code}`);
+    } else {
+      const drinkById = await getDrinkById(params.id);
+      const code = drinkById.drinks[0].idDrink;
+      navigator.clipboard.writeText(`http://localhost:3000/drinks/${code}`);
+    // https://www.w3schools.com/howto/howto_js_copy_clipboard.asp
+    }
+  };
+
   return (
     <div>
       <h3 data-testid="teste">Recipe Details</h3>
@@ -86,10 +102,11 @@ function RecipeDetails({ match: { params, path, url } }) {
       <button
         type="button"
         data-testid="share-btn"
-        onClick={ () => { console.log('share-btn'); } }
+        onClick={ handleShareClick }
       >
         Share
       </button>
+      {isShared && <h2>Link copied!</h2>}
       <button
         type="button"
         data-testid="favorite-btn"
