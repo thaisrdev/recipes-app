@@ -66,7 +66,7 @@ function RecipeDetails({ match: { params, path, url } }) {
         setIsStarted('Start Recipe');
       }
     }
-  }, [params.id, isStarted]);
+  }, [params.id, isStarted, type]);
 
   useEffect(() => {
     const ingredientAndMeasureArray = () => {
