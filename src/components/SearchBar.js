@@ -19,6 +19,7 @@ function SearchBar({ searchValue }) {
   const [typeFilter, setTypeFilter] = useState('ingredient');
   // const INITIAL_LIST = title === 'Drinks' ? { drinks: [] } : { meals: [] };
   // const [listRecipe, setListRecipe] = useState(INITIAL_LIST);
+  // comentario qualquer
 
   const history = useHistory();
 
