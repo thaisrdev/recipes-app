@@ -49,6 +49,7 @@ function DoneRecipes() {
         copiedLink && <h2>Link copied!</h2>
       }
       <Header title=" done-recipes">Done Recipes</Header>
+      <h1 data-testid="page-title">Done Recipes</h1>
       <button
         type="button"
         data-testid="filter-by-all-btn"
