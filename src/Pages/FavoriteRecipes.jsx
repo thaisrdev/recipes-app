@@ -83,7 +83,7 @@ function FavoriteRecipes() {
         </button>
       </div>
 
-      { filteredRecipes.map((recipe, index) => (
+      { filteredRecipes !== null && filteredRecipes.map((recipe, index) => (
         <div key={ recipe.id }>
           <div
             onKeyPress={ () => changeRoute(recipe.type, recipe.id) }
