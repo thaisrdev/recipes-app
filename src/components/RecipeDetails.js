@@ -21,6 +21,7 @@ function RecipeDetails({ match: { params, path, url } }) {
     [{ ingredient: '', measure: '' }],
   );
   const [recommendation, setRecommendation] = useState([]);
+  const [isStarted, setIsStarted] = useState('Start Recipe');
   const [isShared, setIsShared] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
 
@@ -55,6 +56,17 @@ function RecipeDetails({ match: { params, path, url } }) {
       getMealRecommendationApi();
     }
   }, [params.id, path]);
+
+  useEffect(() => {
+    if (Object.prototype.hasOwnProperty.call(localStorage, 'inProgressRecipes')) {
+      const inputsStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      if (inputsStorage[type][params.id]) {
+        setIsStarted('Continue Recipe');
+      } else {
+        setIsStarted('Start Recipe');
+      }
+    }
+  }, [params.id, isStarted]);
 
   useEffect(() => {
     const ingredientAndMeasureArray = () => {
@@ -148,7 +160,7 @@ function RecipeDetails({ match: { params, path, url } }) {
         data-testid="start-recipe-btn"
         onClick={ () => history.push(`${url}/in-progress`) }
       >
-        Start Recipe
+        { isStarted }
       </button>
     </div>
   );
